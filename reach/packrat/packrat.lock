@@ -1,0 +1,119 @@
+PackratFormat: 1.4
+PackratVersion: 0.4.3
+RVersion: 3.1.3
+Repos: CRAN=http://cran.rstudio.com
+
+Package: R.matlab
+Source: CRAN
+Version: 3.2.0
+Hash: 776292c1f5b524b1c5737e16acda43b4
+Requires: R.methodsS3, R.oo, R.utils
+
+Package: R.methodsS3
+Source: CRAN
+Version: 1.7.0
+Hash: f9066c451a6ed76b1011dee9cead8777
+
+Package: R.oo
+Source: CRAN
+Version: 1.19.0
+Hash: 00ccd41498c884e52156598614c69a80
+Requires: R.methodsS3
+
+Package: R.utils
+Source: CRAN
+Version: 2.0.2
+Hash: 63b152cafc701f44df33b716ce15d2f5
+Requires: R.methodsS3, R.oo
+
+Package: R6
+Source: CRAN
+Version: 2.0.1
+Hash: 9a3ac4e5fd8059af0fc5156bcb019bbc
+
+Package: RCurl
+Source: CRAN
+Version: 1.95-4.6
+Hash: a4d86df231587d1eae56f29c278bad0d
+Requires: bitops
+
+Package: Rcpp
+Source: CRAN
+Version: 0.11.5
+Hash: 3e452cb48f3ec8a7cf27fb9ab8624639
+
+Package: bitops
+Source: CRAN
+Version: 1.0-6
+Hash: cb26464a8321628636b547518994c931
+
+Package: brew
+Source: CRAN
+Version: 1.0-6
+Hash: 9d92cc5ac60123fdb7b0daa3ae83bf99
+
+Package: devtools
+Source: CRAN
+Version: 1.7.0
+Hash: 56919e22e0d3f7131e93bda1a869730e
+Requires: RCurl, digest, evaluate, httr, jsonlite, memoise, roxygen2,
+    rstudioapi, whisker
+
+Package: digest
+Source: CRAN
+Version: 0.6.8
+Hash: 89dc4c8734dad5322bb3c5c2af09056f
+
+Package: evaluate
+Source: CRAN
+Version: 0.7
+Hash: 96c38894bf65a2e890f7c6ec840a6466
+Requires: stringr
+
+Package: httr
+Source: CRAN
+Version: 0.6.1
+Hash: 3b082465d75a7a0c3d09ad06a0905aff
+Requires: R6, RCurl, digest, jsonlite, mime, stringr
+
+Package: jsonlite
+Source: CRAN
+Version: 0.9.16
+Hash: d96313db22c1ea2028538db1fc96fe5a
+
+Package: memoise
+Source: CRAN
+Version: 0.2.1
+Hash: fc52fa39dfd216c44d64812ff31b1c67
+Requires: digest
+
+Package: mime
+Source: CRAN
+Version: 0.3
+Hash: 843fd754c122f266d910a04642e0703d
+
+Package: packrat
+Source: CRAN
+Version: 0.4.3
+Hash: 16c72d5c802629fae5a4abca901e0199
+
+Package: roxygen2
+Source: CRAN
+Version: 4.1.1
+Hash: e030acbd1526c09f7b74315c40f87480
+Requires: Rcpp, brew, digest, stringr
+
+Package: rstudioapi
+Source: CRAN
+Version: 0.3.1
+Hash: ee415a4fe305c6222630d8e5572781e7
+
+Package: stringr
+Source: CRAN
+Version: 0.6.2
+Hash: cdde0cfa0f52cffeaca23a11a3899779
+
+Package: whisker
+Source: CRAN
+Version: 0.3-2
+Hash: 186ab2937fec1694c8a63009a2389c4e
