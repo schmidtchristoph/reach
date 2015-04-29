@@ -1,8 +1,8 @@
-.Rproj.user
+reach/.Rproj.user
 *.Rproj
 .Rhistory
 .RData
 *.RData
 *.mat
-packrat/lib*/
+reach/packrat/lib*/
 *.pdf

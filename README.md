@@ -18,11 +18,11 @@ R and Matlab cannot directly exchange data, but it is possible to start a Matlab
 - - -
 ### How to install this package from GitHub
 
-There are two ways of installing the package:
+There are several ways of installing the package, e.g.:
 
 - R CMD INSTALL reach_0.1.0.tar.gz on the command line
 
-- install the "devtools" package first, then use devtools::install_github("schmidtchristoph/reach")
+- install the "devtools" package first, then use devtools::install_github("schmidtchristoph/reach/reach")
 
 - install the "devtools" package first, clone the repository, then use devtools::install("path/to/repository/reach") 
 
@@ -36,3 +36,4 @@ Copyright (c) 2015 Christoph Schmidt
 - - -
 My ORCID iD: http://orcid.org/0000-0002-5442-551X
 
+<img src="orcid.png" align="left" />
