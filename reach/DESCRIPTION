@@ -1,6 +1,6 @@
 Package: reach
 Title: R < > Matlab interoperability
-Version: 0.1.0
+Version: 0.2.0
 Author: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
 Maintainer: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
 Description: The package reach contains auxiliary functions for better R < > Matlab interoperability.

@@ -6,3 +6,4 @@ reach/.Rproj.user
 *.mat
 reach/packrat/lib*/
 *.pdf
+reach/.gitignore
