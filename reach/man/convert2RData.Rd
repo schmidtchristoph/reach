@@ -4,18 +4,9 @@
 \alias{convert2RData}
 \title{Converts an eligible Matlab .mat file to an .RData file}
 \usage{
-convert2RData(matfile)
+convert2RData(matfile = NULL, dir = NULL)
 }
 \arguments{
-<<<<<<< HEAD
-\item{matfile}{A string denoting the matfile, e.g. "mymatlabdata" or "mymatlabdata.mat"}
-}
-\description{
-Converts an eligible Matlab .mat file to an .RData file. Keeps the .mat file unchanged.
-The Matlab file must have been saved with the -v7 option flag.
-}
-\examples{
-=======
 \item{matfile}{string or string vector denoting one or several matfiles, e.g.
   "mymatlabdata" or "mymatlabdata.mat" or c("one.mat", "two.mat")}
 
@@ -40,19 +31,10 @@ If single .mat files in the current directory should be converted to
 }
 \examples{
 # conversion of a single .mat file in the current working directory
->>>>>>> 52af67b... Convert2RData: now all .mat files in user specified directories can be converted. An input vector of .mat files is now accepted for conversion.
 v <- sample(1:10,4)
 m <- matrix(runif(9),3,3)
 print(v)
 print(m)
-<<<<<<< HEAD
-R.matlab::writeMat("test_convert2RData.mat", v=v, m=m)
-rm(m,v)
-convert2RData("test_convert2RData.mat")
-load("test_convert2RData.RData")
-print(v)
-print(m)
-=======
 R.matlab::writeMat("file_convert2RData.mat", v=v, m=m)
 rm(v,m)
 print(ls())
@@ -99,7 +81,6 @@ load("twofiles_convert2RData_1.RData")
 print(v)
 load("twofiles_convert2RData_2.RData")
 print(m)
->>>>>>> 52af67b... Convert2RData: now all .mat files in user specified directories can be converted. An input vector of .mat files is now accepted for conversion.
 }
 \author{
 Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
