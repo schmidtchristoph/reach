@@ -7,3 +7,5 @@ reach/.Rproj.user
 reach/packrat/lib*/
 *.pdf
 reach/.gitignore
+.Rproj.user
+reach/man/.Rapp.history
