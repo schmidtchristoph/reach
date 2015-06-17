@@ -5,6 +5,8 @@ Author: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
 Maintainer: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
 Description: The package reach contains auxiliary functions for better R < > Matlab interoperability.
 Depends: R (>= 3.0.0)
-Imports:  stringr, R.matlab
+Imports:
+   stringr,
+   R.matlab
 LazyData: true
 License: MIT + file LICENSE

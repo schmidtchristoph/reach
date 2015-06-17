@@ -7,7 +7,8 @@
 #' directory.
 #'
 #' @param matfile string or string vector denoting one or several matfiles, e.g.
-#'   "mymatlabdata" or "mymatlabdata.mat" or c("one.mat", "two.mat")
+#'   "mymatlabdata", "mymatlabdata.mat", "path/to/mymatlabfile.mat" or
+#'   c("one.mat", "two.mat")
 #'
 #' @param dir path to a directory which contains one or several .mat files that
 #'   should be converted to .RData files
@@ -33,7 +34,9 @@
 #' R.matlab::writeMat("file_convert2RData.mat", v=v, m=m)
 #' rm(v,m)
 #' print(ls())
-#' convert2RData("file_convert2RData.mat")
+#'
+#' convert2RData("./file_convert2RData.mat")
+#'
 #' load("file_convert2RData.RData")
 #' print(v)
 #' print(m)
@@ -47,7 +50,9 @@
 #' R.matlab::writeMat("dir_convert2RData_1.mat", m=m)
 #' R.matlab::writeMat("dir_convert2RData_2.mat", v=v)
 #' rm(v,m)
+#'
 #' convert2RData(dir=this_dir)
+#'
 #' load("dir_convert2RData_1.Rdata")
 #' print(m)
 #' load("dir_convert2RData_2.Rdata")
@@ -59,7 +64,9 @@
 #' print(v)
 #' R.matlab::writeMat("file_dir_convert2RData.mat", v=v)
 #' rm(v)
+#'
 #' convert2RData("file_dir_convert2RData.mat", this_dir)
+#'
 #' load("file_dir_convert2RData.RData")
 #' print(v)
 #'
@@ -71,7 +78,9 @@
 #' R.matlab::writeMat("twofiles_convert2RData_1.mat", v=v)
 #' R.matlab::writeMat("twofiles_convert2RData_2.mat", m=m)
 #' rm(v,m)
+#'
 #' convert2RData(c("twofiles_convert2RData_1.mat", "twofiles_convert2RData_2.mat"))
+#'
 #' load("twofiles_convert2RData_1.RData")
 #' print(v)
 #' load("twofiles_convert2RData_2.RData")
