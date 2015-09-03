@@ -21,11 +21,17 @@
 #'
 #' commandName <- "'x=1:2:7; y=3; disp(x.^y); quit'"
 #' runMatlabCommand(commandName)
+#'
+#' commandName2 <- "M=magic(4); disp(M); eig(M)"
+#' runMatlabCommand(commandName2)
+#'
+#' wrong_but_corrected_commandName <- "M=magic(4); disp(M); eig(M) quit"
+#' runMatlabCommand(wrong_but_corrected_commandName)
 #' }
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 13.04.15
+# 03.09.15
 
 runMatlabCommand <- function(commandName){
    #### Checking whether the commandName contains enclosing ' and ' ####
@@ -44,7 +50,13 @@ runMatlabCommand <- function(commandName){
    ind <- stringr::str_locate(commandName, "quit") # NA if 'quit' is not included
 
    if(is.na(ind[[1]])){
-      commandName <- paste(stringr::str_sub(commandName, start = 1L, end = -2L), "quit'")
+      commandName <- paste(stringr::str_sub(commandName, start = 1L, end = -2L), ",;quit'")
+
+   } else { # ensure Matlab really quits: add ",;" directly preceding "quit" in case neither "," or ";" was put in front of "quit"
+      ind2        <- stringr::str_locate(commandName, "quit")
+      tmp1        <- stringr::str_sub(commandName, 1, ind2[1,1]-1)
+      tmp2        <- stringr::str_sub(commandName, ind2[1,1], stringr::str_length(commandName))
+      commandName <- stringr::str_c(tmp1, ",;", tmp2)
    }
 
 

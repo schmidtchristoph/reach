@@ -5,6 +5,8 @@ reach/.Rproj.user
 *.RData
 *.mat
 reach/packrat/lib*/
+reach/packrat/src/una
+reach/.Rprofile
 *.pdf
 reach/.gitignore
 .Rproj.user

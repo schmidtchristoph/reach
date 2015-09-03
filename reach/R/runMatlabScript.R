@@ -36,7 +36,7 @@
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 13.04.15
+# 03.09.15
 
 
 runMatlabScript <- function(scriptName){
@@ -64,6 +64,16 @@ runMatlabScript <- function(scriptName){
 
    #### Starting Matlab ####
    mypath <- getwd()
+   ind    <- stringr::str_locate(mypath, " ")
+
+
+   if(!is.na(ind[1,1])){ # path contains spaces/blanks (is not consecutive)
+      tmp1   <- stringr::str_sub(mypath, 1, ind[1,1]-1)
+      tmp2   <- stringr::str_sub(mypath, ind[1,1], stringr::str_length(mypath))
+      mypath <- stringr::str_c(tmp1, "'", tmp2, "'") # Matlab treats this as a single input argument
+   }
+
+
    matlabRun <- paste(matlabCall, " -nosplash -nodesktop -r \"cd ", mypath,
                       "; ", scriptName, "; quit\"", sep="")
 

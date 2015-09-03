@@ -20,11 +20,11 @@ R and Matlab cannot directly exchange data, but it is possible to start a Matlab
 
 There are several ways of installing the package, e.g.:
 
-- on the command line: R CMD INSTALL reach_0.2.0.tgz (binary package, OSX)
-
-- on the command line: R CMD INSTALL reach_0.2.0.tar.gz (source package)
-
 - install the "devtools" package first, then use devtools::install_github("schmidtchristoph/reach/reach")
+
+- on the command line: R CMD INSTALL reach_0.2.1.tgz (binary package, OSX)
+
+- on the command line: R CMD INSTALL reach_0.2.1.tar.gz (source package)
 
 - install the "devtools" package first, clone the repository, then use devtools::install("path/to/repository/reach")
 

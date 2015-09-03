@@ -26,6 +26,12 @@ The commandName could look something like this:
 
 commandName <- "'x=1:2:7; y=3; disp(x.^y); quit'"
 runMatlabCommand(commandName)
+
+commandName2 <- "M=magic(4); disp(M); eig(M)"
+runMatlabCommand(commandName2)
+
+wrong_but_corrected_commandName <- "M=magic(4); disp(M); eig(M) quit"
+runMatlabCommand(wrong_but_corrected_commandName)
 }
 }
 \author{
