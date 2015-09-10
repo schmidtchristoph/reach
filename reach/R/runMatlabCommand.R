@@ -1,16 +1,22 @@
-#' Starts Matlab on the R console and executes the input command
+#' Starts Matlab on the R console and executes one or several input Matlab
+#' commands
 #'
-#' Starts Matlab on the R console and executes the input command and quits Matlab.
-#' Discerns the Mac and Linux Matlab command.
+#' Starts Matlab on the R console and let it executes the input Matlab command
+#' or several input commands, like function calls (separated by ";") and quits
+#' Matlab. Discerns the OS X and Linux Matlab app shell command. Automatically
+#' changes to the current R working directory in Matlab so that .mat files would
+#' be saved there instead of the default Matlab working directory.
 #'
-#' @param commandName String denoting the matlab command
+#' @param commandName a string denoting the Matlab command
 #'
-#' @details As R and Matlab cannot directly exchange data natively, no value can be returned.
-#' Instead, let Matlab save the results of its computations and load these into R for further processing.
-#' An error in the Matlab command prevents Matlab from quitting in the R console and might
-#' require an re-start of the R session. So check the command in Matlab before executing it within R.
-#' The commandName could look something like this:
-#' "'load someData.mat; [ca,Q]=modularity_dir(A); save someData2.mat ca Q; quit'"
+#' @details As R and Matlab cannot directly exchange data natively, no value can
+#'   be returned. Instead, let Matlab save the results of its computations and
+#'   load these into R for further processing. An error in the Matlab command
+#'   prevents Matlab from quitting in the R console and might require killing
+#'   the Matlab process or an re-start of the R session. (You migth want to
+#'   check the command in Matlab before executing it within R.) The commandName
+#'   could look something like this: "load someData.mat;
+#'   [ca,Q]=modularity_dir(A); save someData2.mat ca Q; quit"
 #'
 #' @seealso \code{\link{convert2RData}}, \code{\link{runMatlabScript}}
 #'
@@ -19,7 +25,7 @@
 #' @examples
 #' \dontrun{
 #'
-#' commandName <- "'x=1:2:7; y=3; disp(x.^y); quit'"
+#' commandName <- "x=1:2:7; y=3; disp(x); disp(x.^y); quit"
 #' runMatlabCommand(commandName)
 #'
 #' commandName2 <- "M=magic(4); disp(M); eig(M)"
@@ -27,30 +33,26 @@
 #'
 #' wrong_but_corrected_commandName <- "M=magic(4); disp(M); eig(M) quit"
 #' runMatlabCommand(wrong_but_corrected_commandName)
+#'
+#' commandName3 <- "A=magic(3); save('magic.mat', 'A', '-v7'); quit"
+#' runMatlabCommand(commandName3)
+#' input        <- R.matlab::readMat("magic.mat")
+#' print(input$A)
 #' }
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 03.09.15
+# 10.09.15
 
 runMatlabCommand <- function(commandName){
-   #### Checking whether the commandName contains enclosing ' and ' ####
-   ind <- stringr::str_locate_all(commandName,"'")
-
-   if(length(ind[[1]])==0){
-      commandName <- paste("'", commandName, "'", sep="")
-   }
-
-
-
-
+print(commandName)
 
 
    #### Checking whether 'quit' has to be appended ####
    ind <- stringr::str_locate(commandName, "quit") # NA if 'quit' is not included
 
    if(is.na(ind[[1]])){
-      commandName <- paste(stringr::str_sub(commandName, start = 1L, end = -2L), ",;quit'")
+      commandName <- stringr::str_c(commandName, " ,;quit")
 
    } else { # ensure Matlab really quits: add ",;" directly preceding "quit" in case neither "," or ";" was put in front of "quit"
       ind2        <- stringr::str_locate(commandName, "quit")
@@ -58,6 +60,25 @@ runMatlabCommand <- function(commandName){
       tmp2        <- stringr::str_sub(commandName, ind2[1,1], stringr::str_length(commandName))
       commandName <- stringr::str_c(tmp1, ",;", tmp2)
    }
+
+
+print(commandName)
+
+
+   #### Checking whether the commandName ends with \" (if not, then appending it) ####
+   lastChar  <- stringr::str_sub(commandName, stringr::str_length(commandName), stringr::str_length(commandName))
+
+   if(!identical(lastChar, "\"")){
+      commandName <- stringr::str_c(commandName, "\"")
+   }
+
+print(commandName)
+
+   #### overriding Matlab default working directory ####
+   wd          <- getwd()
+   commandName <- stringr::str_c("\"cd ", wd, "; ", commandName)
+
+print(commandName)
 
 
 
@@ -76,8 +97,10 @@ runMatlabCommand <- function(commandName){
 
 
 
-   flags <- ' -nosplash -nodesktop -r '
+   flags      <- ' -nosplash -nodesktop -r '
+   systemcall <- paste(matlabCall, flags, commandName, sep="")
+   print(systemcall)
 
-   system(paste(matlabCall, flags, commandName, sep=""))
+   system(systemcall)
 }
 

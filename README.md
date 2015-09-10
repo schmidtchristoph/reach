@@ -1,6 +1,6 @@
  [![Build Status](https://travis-ci.org/schmidtchristoph/reach.svg?branch=master)](https://travis-ci.org/schmidtchristoph/reach)
 
-# reach:
+# reach (0.2.2)
 ## R < > Matlab interoperability
 
 For building a combined R — Matlab software pipeline and workflow, being able to exchange data by reading and writing .mat files in R sessions is of great importance and for this the [R.matlab package](http://cran.r-project.org/web/packages/R.matlab/index.html) exists.
@@ -22,14 +22,14 @@ There are several ways of installing the package, e.g.:
 
 - install the "devtools" package first, then use devtools::install_github("schmidtchristoph/reach/reach")
 
-- on the command line: R CMD INSTALL reach_0.2.1.tgz (binary package, OSX)
+- download the binary package (OS X), then run on the command line: R CMD INSTALL reach_0.2.2.tgz
 
-- on the command line: R CMD INSTALL reach_0.2.1.tar.gz (source package)
+- download the source package, then run on the command line: R CMD INSTALL reach_0.2.2.tar.gz
 
 - install the "devtools" package first, clone the repository, then use devtools::install("path/to/repository/reach")
 
 - - - 
-The packages passes devtools::check( ) with zero problems, notes or warnings on my machine running OSX 10.10.3.
+The packages passes devtools::check( ) with zero problems, notes or warnings on my machine running OS X 10.10.5.
 
 - - - 
 The [MIT License (MIT)](http://opensource.org/licenses/MIT)

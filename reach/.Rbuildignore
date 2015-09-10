@@ -1,5 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^packrat/
+^packrat$
 ^\.Rprofile$
 ^\.travis\.yml$

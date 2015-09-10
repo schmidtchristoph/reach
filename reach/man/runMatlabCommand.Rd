@@ -2,29 +2,35 @@
 % Please edit documentation in R/runMatlabCommand.R
 \name{runMatlabCommand}
 \alias{runMatlabCommand}
-\title{Starts Matlab on the R console and executes the input command}
+\title{Starts Matlab on the R console and executes one or several input Matlab
+commands}
 \usage{
 runMatlabCommand(commandName)
 }
 \arguments{
-\item{commandName}{String denoting the matlab command}
+\item{commandName}{a string denoting the Matlab command}
 }
 \description{
-Starts Matlab on the R console and executes the input command and quits Matlab.
-Discerns the Mac and Linux Matlab command.
+Starts Matlab on the R console and let it executes the input Matlab command
+or several input commands, like function calls (separated by ";") and quits
+Matlab. Discerns the OS X and Linux Matlab app shell command. Automatically
+changes to the current R working directory in Matlab so that .mat files would
+be saved there instead of the default Matlab working directory.
 }
 \details{
-As R and Matlab cannot directly exchange data natively, no value can be returned.
-Instead, let Matlab save the results of its computations and load these into R for further processing.
-An error in the Matlab command prevents Matlab from quitting in the R console and might
-require an re-start of the R session. So check the command in Matlab before executing it within R.
-The commandName could look something like this:
-"'load someData.mat; [ca,Q]=modularity_dir(A); save someData2.mat ca Q; quit'"
+As R and Matlab cannot directly exchange data natively, no value can
+  be returned. Instead, let Matlab save the results of its computations and
+  load these into R for further processing. An error in the Matlab command
+  prevents Matlab from quitting in the R console and might require killing
+  the Matlab process or an re-start of the R session. (You migth want to
+  check the command in Matlab before executing it within R.) The commandName
+  could look something like this: "load someData.mat;
+  [ca,Q]=modularity_dir(A); save someData2.mat ca Q; quit"
 }
 \examples{
 \dontrun{
 
-commandName <- "'x=1:2:7; y=3; disp(x.^y); quit'"
+commandName <- "x=1:2:7; y=3; disp(x); disp(x.^y); quit"
 runMatlabCommand(commandName)
 
 commandName2 <- "M=magic(4); disp(M); eig(M)"
@@ -32,6 +38,11 @@ runMatlabCommand(commandName2)
 
 wrong_but_corrected_commandName <- "M=magic(4); disp(M); eig(M) quit"
 runMatlabCommand(wrong_but_corrected_commandName)
+
+commandName3 <- "A=magic(3); save('magic.mat', 'A', '-v7'); quit"
+runMatlabCommand(commandName3)
+input        <- R.matlab::readMat("magic.mat")
+print(input$A)
 }
 }
 \author{

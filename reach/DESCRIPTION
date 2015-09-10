@@ -1,12 +1,15 @@
 Package: reach
-Title: R < > Matlab interoperability
-Version: 0.2.1
+Title: A package for improving R < > Matlab interoperability
+Version: 0.2.2
 Author: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
 Maintainer: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
-Description: The package reach contains auxiliary functions for better R < > Matlab interoperability.
+Description: An implementation of helper functions for improving interoperability between R and Matlab.
 Depends: R (>= 3.0.0)
 Imports:
    stringr (>= 1.0.0),
    R.matlab (>= 3.2.0)
+Suggests:
+   testthat (>= 0.10.0)
 LazyData: true
 License: MIT + file LICENSE
+

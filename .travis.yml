@@ -1,12 +1,5 @@
 language: r
-sudo: required
-
 warnings_are_errors: true
-
+sudo: required
 install:
   - cd ./reach
-
-notifications:
-  email:
-    on_success: change
-    on_failure: change

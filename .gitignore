@@ -4,10 +4,10 @@ reach/.Rproj.user
 .RData
 *.RData
 *.mat
-reach/packrat/lib*/
-reach/packrat/src/una
+reach/packrat/
 reach/.Rprofile
 *.pdf
 reach/.gitignore
 .Rproj.user
 reach/man/.Rapp.history
+
