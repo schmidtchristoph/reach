@@ -1,5 +1,5 @@
 language: r
-warnings_are_errors: true
 sudo: required
-install:
+warnings_are_errors: true
+before_install:
   - cd ./reach
