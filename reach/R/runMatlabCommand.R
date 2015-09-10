@@ -28,16 +28,24 @@
 #' commandName <- "x=1:2:7; y=3; disp(x); disp(x.^y); quit"
 #' runMatlabCommand(commandName)
 #'
+#'
+#'
 #' commandName2 <- "M=magic(4); disp(M); eig(M)"
 #' runMatlabCommand(commandName2)
 #'
+#'
+#'
 #' wrong_but_corrected_commandName <- "M=magic(4); disp(M); eig(M) quit"
 #' runMatlabCommand(wrong_but_corrected_commandName)
+#'
+#'
 #'
 #' commandName3 <- "A=magic(3); save('magic.mat', 'A', '-v7'); quit"
 #' runMatlabCommand(commandName3)
 #' input        <- R.matlab::readMat("magic.mat")
 #' print(input$A)
+#' invisible(capture.output(file.remove("magic.mat")))
+#'
 #' }
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
@@ -45,8 +53,6 @@
 # 10.09.15
 
 runMatlabCommand <- function(commandName){
-print(commandName)
-
 
    #### Checking whether 'quit' has to be appended ####
    ind <- stringr::str_locate(commandName, "quit") # NA if 'quit' is not included
@@ -62,8 +68,6 @@ print(commandName)
    }
 
 
-print(commandName)
-
 
    #### Checking whether the commandName ends with \" (if not, then appending it) ####
    lastChar  <- stringr::str_sub(commandName, stringr::str_length(commandName), stringr::str_length(commandName))
@@ -72,14 +76,11 @@ print(commandName)
       commandName <- stringr::str_c(commandName, "\"")
    }
 
-print(commandName)
+
 
    #### overriding Matlab default working directory ####
    wd          <- getwd()
    commandName <- stringr::str_c("\"cd ", wd, "; ", commandName)
-
-print(commandName)
-
 
 
 

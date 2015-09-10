@@ -33,16 +33,24 @@ As R and Matlab cannot directly exchange data natively, no value can
 commandName <- "x=1:2:7; y=3; disp(x); disp(x.^y); quit"
 runMatlabCommand(commandName)
 
+
+
 commandName2 <- "M=magic(4); disp(M); eig(M)"
 runMatlabCommand(commandName2)
 
+
+
 wrong_but_corrected_commandName <- "M=magic(4); disp(M); eig(M) quit"
 runMatlabCommand(wrong_but_corrected_commandName)
+
+
 
 commandName3 <- "A=magic(3); save('magic.mat', 'A', '-v7'); quit"
 runMatlabCommand(commandName3)
 input        <- R.matlab::readMat("magic.mat")
 print(input$A)
+invisible(capture.output(file.remove("magic.mat")))
+
 }
 }
 \author{

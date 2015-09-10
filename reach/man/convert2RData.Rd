@@ -31,7 +31,9 @@ If single .mat files in the current directory should be converted to
   Providing the file type specifier ".mat" is optional.
 }
 \examples{
-# conversion of a single .mat file in the current working directory
+\dontrun{
+
+##### conversion of a single .mat file in the current working directory ####
 v <- sample(1:10,4)
 m <- matrix(runif(9),3,3)
 print(v)
@@ -45,8 +47,11 @@ convert2RData("./file_convert2RData.mat")
 load("file_convert2RData.RData")
 print(v)
 print(m)
+file.remove(c("file_convert2RData.RData", "file_convert2RData.mat"))
 
-# conversion of all .mat files in a specified directory
+
+
+#### conversion of all .mat files in a specified directory ####
 this_dir <- getwd()
 m   <- matrix(runif(9),3,3)
 v   <- seq(1,100)
@@ -62,8 +67,12 @@ load("dir_convert2RData_1.Rdata")
 print(m)
 load("dir_convert2RData_2.Rdata")
 print(v)
+file.remove(c("dir_convert2RData_1.mat", "dir_convert2RData_2.mat",
+   "dir_convert2RData_1.Rdata", "dir_convert2RData_2.Rdata"))
 
-# conversion of a single specified .mat file in a specified directory
+
+
+#### conversion of a single specified .mat file in a specified directory ####
 this_dir <- getwd()
 v   <- seq(1,10)
 print(v)
@@ -74,8 +83,11 @@ convert2RData("file_dir_convert2RData.mat", this_dir)
 
 load("file_dir_convert2RData.RData")
 print(v)
+file.remove(c("file_dir_convert2RData.mat", "file_dir_convert2RData.RData"))
 
-# conversion of several specified .mat files
+
+
+#### conversion of several specified .mat files in the current working directory ####
 v <- sample(1:10,4)
 m <- matrix(runif(9),3,3)
 print(v)
@@ -90,6 +102,9 @@ load("twofiles_convert2RData_1.RData")
 print(v)
 load("twofiles_convert2RData_2.RData")
 print(m)
+file.remove(c("twofiles_convert2RData_1.mat", "twofiles_convert2RData_2.mat",
+   "twofiles_convert2RData_1.RData", "twofiles_convert2RData_2.RData"))
+}
 }
 \author{
 Christoph Schmidt <christoph.schmidt@med.uni-jena.de>

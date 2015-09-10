@@ -1,7 +1,6 @@
 reach/.Rproj.user
 *.Rproj
 .Rhistory
-.RData
 *.RData
 *.mat
 reach/packrat/
