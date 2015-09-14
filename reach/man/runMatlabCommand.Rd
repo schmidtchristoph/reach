@@ -57,6 +57,6 @@ invisible(capture.output(file.remove("magic.mat")))
 Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
 }
 \seealso{
-\code{\link{convert2RData}}, \code{\link{runMatlabScript}}
+\code{\link{runMatlabScript}}, \code{\link{convert2RData}}
 }
 

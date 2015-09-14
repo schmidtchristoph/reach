@@ -7,14 +7,17 @@
 isvector(obj)
 }
 \arguments{
-\item{obj}{Data whose type is being tested to be a vector (n,1) or (1,n)}
+\item{obj}{Data whose type is being tested to be a vector (n,1) or (1,n), n>1}
 }
 \value{
-This function returns a boolean indicating whether input obj is a vector
+This function returns a boolean indicating whether input obj is a
+  vector
 }
 \description{
-Returns TRUE if the input is either a vector in R (is.vector = TRUE) or the input
-is a one-dimensional 'matrix' in R (is.matrix = TRUE).
+An input is considered to be a vector if it has dimensions (n,1) or (1,n),
+n>1. Returns TRUE if the input is a vector according to this definition.
+Therefore, input that is a one-dimensional 'matrix' in R (is.matrix = TRUE
+and is.vector = FALSE) would also be regarded as a vector.
 }
 \examples{
 v <- c(1, 2, 3)

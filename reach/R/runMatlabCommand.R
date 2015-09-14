@@ -18,7 +18,7 @@
 #'   could look something like this: "load someData.mat;
 #'   [ca,Q]=modularity_dir(A); save someData2.mat ca Q; quit"
 #'
-#' @seealso \code{\link{convert2RData}}, \code{\link{runMatlabScript}}
+#' @seealso \code{\link{runMatlabScript}}, \code{\link{convert2RData}}
 #'
 #' @export
 #'
