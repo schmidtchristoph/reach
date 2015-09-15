@@ -58,12 +58,14 @@
 #'
 #' convert2RData(dir=this_dir)
 #'
-#' load("dir_convert2RData_1.Rdata")
+#' load(paste(this_dir, "/dir_convert2RData_1.Rdata", sep = ""))
 #' print(m)
-#' load("dir_convert2RData_2.Rdata")
+#' load(paste(this_dir, "/dir_convert2RData_2.Rdata", sep = ""))
 #' print(v)
-#' file.remove(c("dir_convert2RData_1.mat", "dir_convert2RData_2.mat",
-#'    "dir_convert2RData_1.Rdata", "dir_convert2RData_2.Rdata"))
+#' file.remove(c(paste(this_dir, "/dir_convert2RData_1.mat", sep = ""),
+#'    paste(this_dir, "/dir_convert2RData_2.mat", sep = ""),
+#'    paste(this_dir, "/dir_convert2RData_1.Rdata", sep = ""),
+#'    paste(this_dir, "/dir_convert2RData_2.Rdata", sep = "")))
 #'
 #'
 #'
