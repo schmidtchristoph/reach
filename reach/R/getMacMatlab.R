@@ -1,6 +1,8 @@
-#' Returns the name of the Matlab app of the latest version in the OSX Applications folder
+#' Returns the name of the Matlab app of the latest version in the OSX
+#' Applications folder
 #'
-#' Utility function that returns the latest Matlab app (with the highest version number) in the OSX Applications folder.
+#' Utility function that returns the latest Matlab app (with the highest version
+#' number) in the OSX Applications folder, e.g. "MATLAB_R2014a.app".
 #'
 #' @return Latest Matlab application on Mac OSX
 #'

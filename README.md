@@ -14,7 +14,10 @@ There are currently functions for
 - starting Matlab scripts and functions in R 
 - exporting R lists with unnamed entries to Matlab and recovering multi-dimensional matrices contained in exported R lists in Matlab
 
-R and Matlab cannot directly exchange data, but it is possible to start a Matlab server and let R communicate with Matlab (which is great) with the help of the [R.matlab package](http://cran.r-project.org/web/packages/R.matlab/index.html). However, I found this not always working reliably, especially when using different machines (like switching to a computer cluster) to run the R code. The R.matlab package manual states that „The R to MATLAB interface, that is the Matlab class, is less prioritized and should be considered a beta version.“. Therefore, I adopted the strategy to write Matlab scripts and run them from within R using functions of the reach package. I write these scripts to control the computations performed by Matlab, save the results as .mat files and quit the Matlab process. I then instruct R to read the .mat files after Matlab terminated, then to further process their data and to finally delete them. Thus, the data exchange between R and Matlab is indirect, but robust, using the file system.
+For further details and documentation of all package functions please refer to the reference manual "reach.pdf".
+
+---
+R and Matlab cannot directly exchange data, but it is possible to start a Matlab server and let R communicate with Matlab (which is great) using the [R.matlab package](http://cran.r-project.org/web/packages/R.matlab/index.html). However, I found this not always working reliably, especially when using different machines (like switching to a computer cluster) to run the R code. The R.matlab package manual states that „The R to MATLAB interface, that is the Matlab class, is less prioritized and should be considered a beta version.“. Therefore, I adopted the strategy to write Matlab scripts and run them from within R using functions of the reach package. I write these scripts to start and control the computations performed by Matlab, save the results as .mat files and quit the Matlab process. I then instruct R to read the .mat files after Matlab terminated, then to further process their data and to finally delete them. Thus, the data exchange between R and Matlab is indirect, but robust, using the file system.
 
 - - -
 ### How to install this package from GitHub
@@ -23,9 +26,9 @@ There are several ways of installing the package, e.g.:
 
 - install the "devtools" package first, then use devtools::install_github("schmidtchristoph/reach/reach")
 
-- download the binary package (OS X), then run on the command line: R CMD INSTALL reach_0.2.4.tgz
+- download the source package, then run on the command line: R CMD INSTALL /path/to/reach_0.2.4.tar.gz
 
-- download the source package, then run on the command line: R CMD INSTALL reach_0.2.4.tar.gz
+- download the binary package (OS X), then run on the command line: R CMD INSTALL /path/to/reach_0.2.4.tgz
 
 - install the "devtools" package first, clone the repository, then use devtools::install("path/to/repository/reach")
 

@@ -21,19 +21,20 @@
 #' In Matlab it should be transformed to a cell-array using the Matlab function 'rList2Cell()', which is
 #' distributed with this package.
 #'
+#' @seealso \code{\link{rList2Cell}}
+#'
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #'
-#' rlist <- list(matrix(99,4,4), c(1,2,3,4), "somestring")
+#' rlist <- list(matrix(sample(100,16),4,4), c(1,2,3,4), "somestring")
 #' print(rlist)
 #' matlablist <- matlabExportList(rlist)
 #' print(matlablist)
 #' R.matlab::writeMat("test.mat", myexportdata=matlablist)
-#' # in Matlab:
-#' runMatlabCommand("'load test.mat; myexportdata,
-#'       rcell=rList2Cell(myexportdata); celldisp(rcell); quit'")
+#' # in Matlab or using runMatlabCommand() (and having "rList2Cell.m" on the Matlab path):
+#' runMatlabCommand("load test.mat; myexportdata, rc=rList2Cell(myexportdata); celldisp(rc); quit")
 #' system("rm test.mat")
 #' }
 #'
@@ -101,5 +102,44 @@ matlabExportList <- function(rlist){
 
 
    return(matlablist)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#' Conversion of a R list, which was processed with the R function
+#' "matlabExportList()" and then imported to Matlab to a Matlab cell-array
+#'
+#' This is a Matlab function. It transforms a R list datatype (which is imported
+#' in Matlab as a struct) to a Matlab cell-array. Also recovers/ reformats
+#' multi-arrays contained in this R list (which are only exported as vectors).
+#'
+#' @param importlist the imported struct equivalent of the R list, which was
+#'   reformated in R using matlabExportList.R and exported to Matlab using
+#'   writeMat() from the R.matlab package
+#'
+#' @return A Matlab cell-array containing in each cell the corresponding element
+#'   of the original R list data (before it was reformated using
+#'   matlabExportList.R()); also multi-arrays stored in the original R list
+#'   datatype are recovered
+#'
+#' @seealso \code{\link{matlabExportList}}
+#'
+#' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
+
+# 22.09.15
+
+rList2Cell <- function(importlist){
+   return("This really is a Matlab function.")
 }
 

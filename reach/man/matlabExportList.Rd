@@ -34,18 +34,20 @@ Consequently, this is checked for in matlabExportList and triggers an error.
 \examples{
 \dontrun{
 
-rlist <- list(matrix(99,4,4), c(1,2,3,4), "somestring")
+rlist <- list(matrix(sample(100,16),4,4), c(1,2,3,4), "somestring")
 print(rlist)
 matlablist <- matlabExportList(rlist)
 print(matlablist)
 R.matlab::writeMat("test.mat", myexportdata=matlablist)
-# in Matlab:
-runMatlabCommand("'load test.mat; myexportdata,
-      rcell=rList2Cell(myexportdata); celldisp(rcell); quit'")
+# in Matlab or using runMatlabCommand() (and having "rList2Cell.m" on the Matlab path):
+runMatlabCommand("load test.mat; myexportdata, rc=rList2Cell(myexportdata); celldisp(rc); quit")
 system("rm test.mat")
 }
 }
 \author{
 Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
+}
+\seealso{
+\code{\link{rList2Cell}}
 }
 
