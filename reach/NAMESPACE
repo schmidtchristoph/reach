@@ -3,4 +3,5 @@
 export(convert2RData)
 export(matlabExportList)
 export(runMatlabCommand)
+export(runMatlabFct)
 export(runMatlabScript)
