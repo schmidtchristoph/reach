@@ -8,7 +8,7 @@
     results <- runMatlabFct( "[bool, pos] = ismember(b,a)" )
     ```
 
-    would return the following results
+    returns the following results
 
     ```
     > results
