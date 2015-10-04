@@ -2,17 +2,19 @@
 
 # reach:
 ## R < > Matlab interoperability
-##### version 0.2.4
+##### version 0.3.0
 
-For building a combined R — Matlab software pipeline and workflow, being able to exchange data by reading and writing .mat files in R sessions is of great importance and for this the [R.matlab package](http://cran.r-project.org/web/packages/R.matlab/index.html) exists.
+For building an integrated R — Matlab software pipeline and workflow, being able to exchange data by reading and writing .mat files in R sessions is of great importance and for this the [R.matlab package](http://cran.r-project.org/web/packages/R.matlab/index.html) exists.
 
 The reach package contains utility functions in R (and one in Matlab) that enhance compatibility between R and Matlab somewhat beyond reading and writing .mat files (and starting a Matlab server, see below). I wrote these functions for helping me with my own research projects, facilitating the reuse of existing Matlab code within R code.
 
 There are currently functions for
 
-- converting .mat files into .RData files 
-- starting Matlab scripts and functions in R 
-- exporting R lists with unnamed entries to Matlab and recovering multi-dimensional matrices contained in exported R lists in Matlab
+- calling and executing Matlab functions seamlessly as if they were R functions and returning their results directly into the R session
+- converting .mat files into .RData files as well as batch converting all .mat files contained within a folder 
+- starting Matlab scripts (saving the results and importing them back into R)
+- starting Matlab functions and printing their results on the terminal 
+- exporting R lists with unnamed entries to Matlab and recovering multi-dimensional matrices in Matlab contained in exported R lists 
 
 For further details and documentation of all package functions please refer to the reference manual "reach.pdf".
 

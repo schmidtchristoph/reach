@@ -1,4 +1,4 @@
-#' Runs a Matlab function like it was an R function and returns its results
+#' Runs a Matlab function like an R function and returns its results
 #'
 #' Runs Matlab on the R console, evaluates the specified Matlab function with
 #' given arguments and directly returns the Matlab output as a single value or a
@@ -17,13 +17,18 @@
 #'   parameters, just as one would call the function inside a regular Matlab
 #'   session. The input arguments specified in fcall must be variable names
 #'   stored in the current R session (the environment where the function was
-#'   called from) or numeric values. If no output parameter are contained in fcall, then it is
-#'   assumed that the user expects Matlab to not automatically quit (e.g.
-#'   because the function call was a plotting function and the plot window
-#'   should stay open). In this case the Matlab process has to be terminated
-#'   manually (!) by the user before the function can terminate and one can
-#'   continue to work in the R session. Nested Matlab function calls (function
-#'   as input argument for a function) are currently not supported.
+#'   called from) or numeric values. Variable names are preferred and should be
+#'   the standard for using this function. If no output parameter are contained
+#'   in fcall, then it is assumed that the user expects Matlab to not
+#'   automatically quit (e.g. because the function call was a plotting function
+#'   and the plot window should stay open). In this case the Matlab process has
+#'   to be terminated manually (!) by the user before the function can terminate
+#'   and one can continue to work in the R session. Nested Matlab function calls
+#'   (function as input argument for a function) are currently not supported.
+#'
+#' @return The results of the Matlab function call. A list of named entries that
+#'   correspond to the output arguments of the Matlab function as specified in
+#'   \emph{fcall}.
 #'
 #' @details This function calls the user specified Matlab function and manages
 #'   the necessary data exchange transparently, thus providing a seamless
@@ -82,23 +87,31 @@
 #'
 #'
 #'
+#' orig_str <- 'this_test_was_my_first_test'
+#' old_sub  <- 'test'
+#' new_sub  <- 'assignment'
+#' new_str  <- runMatlabFct('str=strrep(orig_str, old_sub, new_sub)')
+#' print(new_str$str)
+#'
+#'
+#'
 #'
 #' }
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 02.10.15
+# 04.10.15
 
 runMatlabFct <- function(fcall){
    ### Avoid problems when input has no parentheses---
    if(!stringr::str_detect(fcall, "\\(" )){
-      fcall <- str_replace_all(fcall, "\\)", "")
+      fcall <- stringr::str_replace_all(fcall, "\\)", "")
       fcall <- stringr::str_c(fcall, "()")
    }
 
 
    if(!stringr::str_detect(fcall, "\\)" )){
-      fcall <- str_replace_all(fcall, "\\(", "")
+      fcall <- stringr::str_replace_all(fcall, "\\(", "")
       fcall <- stringr::str_c(fcall, "()")
    }
 
@@ -212,8 +225,9 @@ runMatlabFct <- function(fcall){
    ### Check if input arguments are available in the environment where the function was called from---
    if( !identical(inp[[1]], "") ){ inp_present <- TRUE } else { inp_present <- FALSE }
 
-   if(inp_present){ # only if input is specified, the file tmp_1.mat is written, generate Matlab command
-      wM      <- "R.matlab::writeMat(\"tmp_1.mat\""
+   if(inp_present){ # only if input is specified (and is a workspace variable name), the file tmp_1.mat is written, generate Matlab command
+      wM               <- "R.matlab::writeMat(\"tmp_1.mat\""
+      any_var_in_envir <- FALSE
 
       for(k in 1:length(inp)){
          if( exists(inp[[k]], envir = parent.frame()) ){ var_in_envir <- TRUE } else { var_in_envir <- FALSE } # parent.frame() returns the environment where the function was called from
@@ -228,13 +242,14 @@ runMatlabFct <- function(fcall){
 
 
          if( var_in_envir ){
+            any_var_in_envir <- TRUE
             assign( inp[[k]], get(inp[[k]], envir = parent.frame()) )
-            wM   <- paste(wM, paste(", ", inp[[k]], "=", inp[[k]], sep = ""))
+            wM               <- paste(wM, paste(", ", inp[[k]], "=", inp[[k]], sep = ""))
          }
       } # for 1:length(inp)
 
 
-      if( var_in_envir ){
+      if( any_var_in_envir ){
          wM    <- paste(wM, ")", sep = "")
          eval(parse(text=wM)) # writing tmp_1.mat
          thisc <- paste("load tmp_1.mat; ", fcall, "; save('tmp_2.mat', '-v7')", sep = "") # Matlab command
@@ -242,7 +257,7 @@ runMatlabFct <- function(fcall){
    } # inp_present
 
 
-   if( !inp_present || var_is_num ) { # input is not specified or was a numeric (not a variable), so no tmp_1.mat was written, hence it cannot be loaded
+   if( !inp_present || !any_var_in_envir) { # input is not specified or is a numeric value (not a variable name), so no tmp_1.mat was written, hence it cannot be loaded
       thisc <- paste(fcall, "; save('tmp_2.mat', '-v7')", sep = "")
    }
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/runMatlabFct.R
 \name{runMatlabFct}
 \alias{runMatlabFct}
-\title{Runs a Matlab function like it was an R function and returns its results}
+\title{Runs a Matlab function like an R function and returns its results}
 \usage{
 runMatlabFct(fcall)
 }
@@ -11,13 +11,19 @@ runMatlabFct(fcall)
   parameters, just as one would call the function inside a regular Matlab
   session. The input arguments specified in fcall must be variable names
   stored in the current R session (the environment where the function was
-  called from) or numeric values. If no output parameter are contained in fcall, then it is
-  assumed that the user expects Matlab to not automatically quit (e.g.
-  because the function call was a plotting function and the plot window
-  should stay open). In this case the Matlab process has to be terminated
-  manually (!) by the user before the function can terminate and one can
-  continue to work in the R session. Nested Matlab function calls (function
-  as input argument for a function) are currently not supported.}
+  called from) or numeric values. Variable names are preferred and should be
+  the standard for using this function. If no output parameter are contained
+  in fcall, then it is assumed that the user expects Matlab to not
+  automatically quit (e.g. because the function call was a plotting function
+  and the plot window should stay open). In this case the Matlab process has
+  to be terminated manually (!) by the user before the function can terminate
+  and one can continue to work in the R session. Nested Matlab function calls
+  (function as input argument for a function) are currently not supported.}
+}
+\value{
+The results of the Matlab function call. A list of named entries that
+  correspond to the output arguments of the Matlab function as specified in
+  \emph{fcall}.
 }
 \description{
 Runs Matlab on the R console, evaluates the specified Matlab function with
@@ -85,6 +91,14 @@ nu_  <- 0.32
 vec_ <- c(1,2,5,2,6)
 res_ <- runMatlabFct("v_ = bessely(nu_, vec_)")
 print(res_$v_)
+
+
+
+orig_str <- 'this_test_was_my_first_test'
+old_sub  <- 'test'
+new_sub  <- 'assignment'
+new_str  <- runMatlabFct('str=strrep(orig_str, old_sub, new_sub)')
+print(new_str$str)
 
 
 
