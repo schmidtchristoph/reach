@@ -1,9 +1,12 @@
 library(reach)
+library(testthat)
 
 context("Running Matlab commands from the R shell")
 
 test_that("runMatlabCommand terminates", {
    testthat::skip_on_travis() # since Travis CI has no MATLAB installed tests are going to fail there
+
+
 
    commandName <- "x=1:2:7; y=3; disp(x); disp(x.^y); quit"
    expect_that(runMatlabCommand(commandName), not(throws_error()))

@@ -3,11 +3,22 @@
 #'
 #' Starts Matlab on the R console and let it executes the input Matlab command
 #' or several input commands, like function calls (separated by ";") and quits
-#' Matlab. Discerns the OS X and Linux Matlab app shell command. Automatically
-#' changes to the current R working directory in Matlab so that .mat files would
-#' be saved there instead of the default Matlab working directory.
+#' Matlab. No values are directly returned back to the R session. To achieve
+#' this, use the function 'runMatlabFct()'. Discerns the OS X and Linux Matlab
+#' app shell command. Automatically changes to the current R working directory
+#' in Matlab so that .mat files with Matlab results would be saved there instead
+#' of the default Matlab working directory.
 #'
-#' @param commandName a string denoting the Matlab command
+#' @param commandName a string denoting the Matlab command/ commands
+#'
+#' @param verbose logical indicating if the final internally generated Matlab
+#'   command should be printed to the R console
+#'
+#' @param do_quit logical indicating if the Matlab process should quit itself.
+#'   The default is TRUE, however, if the Matlab command is a plot function then
+#'   one wants Matlab to keep displaying the plot window and not quit. This
+#'   means the user has to quit Matlab manually prior to continue working in the
+#'   current R session.
 #'
 #' @details As R and Matlab cannot directly exchange data natively, no value can
 #'   be returned. Instead, let Matlab save the results of its computations and
@@ -15,10 +26,11 @@
 #'   prevents Matlab from quitting in the R console and might require killing
 #'   the Matlab process or an re-start of the R session. (You migth want to
 #'   check the command in Matlab before executing it within R.) The commandName
-#'   could look something like this: "load someData.mat;
-#'   [ca,Q]=modularity_dir(A); save someData2.mat ca Q; quit"
+#'   could look something like this: "load someData.mat; [out1,
+#'   out2]=someMatlabFunction(in1, in2, in3); save someData2.mat; quit"
 #'
-#' @seealso \code{\link{runMatlabScript}}, \code{\link{convert2RData}}
+#' @seealso \code{\link{runMatlabFct}}, \code{\link{runMatlabScript}}
+#'
 #'
 #' @export
 #'
@@ -46,25 +58,46 @@
 #' print(input$A)
 #' invisible(capture.output(file.remove("magic.mat")))
 #'
+#'
+#'
+#' # !the Matlab process has to be terminated manually!
+#' commandName4 <- "A=magic(40); imagesc(A)"
+#' runMatlabCommand(commandName4, do_quit = FALSE)
+#'
+#'
+#'
+#' # !the Matlab process has to be terminated manually!
+#' commandName4 <- "spy; quit" # quit will be internally removed
+#' runMatlabCommand(commandName4, do_quit = FALSE)
+#'
 #' }
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 10.09.15
+# 01.10.15
 
-runMatlabCommand <- function(commandName){
+runMatlabCommand <- function(commandName, verbose = FALSE, do_quit = TRUE){
 
-   #### Checking whether 'quit' has to be appended ####
-   ind <- stringr::str_locate(commandName, "quit") # NA if 'quit' is not included
+   #### Checking whether 'quit' has to be appended to commandName ####
+   has_quit <- stringr::str_detect(commandName, "quit")
 
-   if(is.na(ind[[1]])){
-      commandName <- stringr::str_c(commandName, " ,;quit")
+   if(do_quit){
+      if(!has_quit){
+         commandName <- stringr::str_c(commandName, " ,;quit")
 
-   } else { # ensure Matlab really quits: add ",;" directly preceding "quit" in case neither "," or ";" was put in front of "quit"
-      ind2        <- stringr::str_locate(commandName, "quit")
-      tmp1        <- stringr::str_sub(commandName, 1, ind2[1,1]-1)
-      tmp2        <- stringr::str_sub(commandName, ind2[1,1], stringr::str_length(commandName))
-      commandName <- stringr::str_c(tmp1, ",;", tmp2)
+      } else { # ensure Matlab really quits: add ",;" directly preceding "quit" in case neither "," or ";" was put in front of "quit"
+         ind2        <- stringr::str_locate(commandName, "quit")
+         tmp1        <- stringr::str_sub(commandName, 1, ind2[1,1]-1)
+         tmp2        <- stringr::str_sub(commandName, ind2[1,1], stringr::str_length(commandName))
+         commandName <- stringr::str_c(tmp1, ",;", tmp2)
+      }
+
+   } else {
+   #### Checking whether 'quit' has to be removed from the Matlab command ####
+      if(has_quit){
+         ind         <- stringr::str_locate(commandName, "quit")
+         commandName <- stringr::str_sub(commandName, 1, ind[1]-1)
+      }
    }
 
 
@@ -100,7 +133,10 @@ runMatlabCommand <- function(commandName){
 
    flags      <- ' -nosplash -nodesktop -r '
    systemcall <- paste(matlabCall, flags, commandName, sep="")
-   print(systemcall)
+
+
+   if(verbose){ print(systemcall) }
+
 
    system(systemcall)
 }
