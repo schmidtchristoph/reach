@@ -24,3 +24,15 @@
     [2,]   12
     [3,]    0
     ```
+
+    Plots using Matlab are possible, too:
+
+    ```
+    p <- runMatlabFct( "[X,Y,Z] = peaks(25)" )
+    X <- p$X
+    Y <- p$Y
+    Z <- p$Z
+    runMatlabFct( "surf(X,Y,Z)" )
+    ```
+
+    ![3-D shaded surface plot](surf.png "3-D shaded surface plot")
