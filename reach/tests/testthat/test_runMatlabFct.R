@@ -151,6 +151,8 @@ test_that("result is not null for input with special symbols", {
 # # function are not public:
 #
 # test_that("temporary files are deleted automatically", {
+#    testthat::skip_on_travis()
+#
 #    A    <- una::randDir(7, p = 0.23)
 #
 #    D2   <- reach::runMatlabFct("D2 = pairwiseVertexSimilarity(A, 1)")$D2

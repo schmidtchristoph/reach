@@ -7,6 +7,8 @@ context("runMatlabScript")
 
 
 test_that("throws an error if input script is not present in working directory before Matlab does", {
+   testthat::skip_on_travis()
+
    expect_error(runMatlabScript("MYSCRIPT2.m"), "Input Matlab script does not exist in current working directory.")
 
 
@@ -34,6 +36,8 @@ test_that("throws an error if input script is not present in working directory b
 
 
 test_that("calling Matlab yields correct results", {
+   testthat::skip_on_travis()
+
    scriptName <- "myscript.m"
    scriptCode <- "x=1:2:7; y=3; z=x.^y; M = magic(4); M3 = M^3; save TesT.mat x y z M M3 -v7"
    writeLines(scriptCode, con=scriptName)
