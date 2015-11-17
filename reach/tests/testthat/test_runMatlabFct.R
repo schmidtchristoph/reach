@@ -41,56 +41,33 @@ test_that("runMatlabFct terminates", {
 
 
 
-   thiswd <- getwd()
-   setwd(system.file("tests/testthat", package = "reach"))
    expect_that(out <- runMatlabFct("out=matlab_test_fct_1(11, 22, 33, 44, 55, 66, 777, 8888)"), not(throws_error()))
-   # print(unlist(out))
-   setwd(thiswd)
 
 
 
-   thiswd <- getwd()
-   setwd(system.file("tests/testthat", package = "reach"))
    expect_that(out <- runMatlabFct("[a,bbb,c_,d-,e_e,f,gG]=matlab_test_fct_2(3)"), not(throws_error()))
-   # print(unlist(out))
-   setwd(thiswd)
 
 
 
-   thiswd <- getwd()
-   setwd(system.file("tests/testthat", package = "reach"))
    val_ <- -9
    expect_that(out <- runMatlabFct("[a,b,c,d,e,f,g]=matlab_test_fct_3(2, -3, 44, 5, val_)"), not(throws_error()))
-   # print(unlist(out))
-   setwd(thiswd)
 
 
 
-   thiswd <- getwd()
-   setwd(system.file("tests/testthat", package = "reach"))
    val_ <- -9
    expect_that(out <- runMatlabFct("[a,b]=matlab_test_fct_3(-3, val_)"), not(throws_error()))
-   # print(unlist(out))
-   setwd(thiswd)
 
 
 
-   thiswd <- getwd()
-   setwd(system.file("tests/testthat", package = "reach"))
    val_ <- -9
    expect_that(out <- runMatlabFct("[a,b,c]=matlab_test_fct_3(-3, val_, 4)"), not(throws_error()))
-   # print(unlist(out))
-   setwd(thiswd)
 
 
 
-   thiswd <- getwd()
-   setwd(system.file("tests/testthat", package = "reach"))
-   val_ <- -9
+
+
    val2 <- 12
    expect_that(out <- runMatlabFct("[a,b,c]=matlab_test_fct_3(val_, 4, val2)"), not(throws_error()))
-   # print(unlist(out))
-   setwd(thiswd)
 })
 
 
@@ -154,10 +131,46 @@ test_that("result is not null for input with special symbols", {
 
 
 
+# # should be commented out because plot window/Matlab has to be terminated manually when no
+# # Matlab output was specified in the argument to runMatalbFct():
+#
 # test_that("function works when no output was specified", {
 #    testthat::skip_on_travis()
 #
 #    x <- seq(1, 2.5*pi, 0.01)
 #    y <- (sin(x))^4
-#    expect_that(runMatlabFct("plot( x , y   )"), not(throws_error()))
+#    expect_that(runMatlabFct("plot( x , y )"), not(throws_error()))
+# })
+
+
+
+
+
+
+# # should be commented out because R package una and the pairwiseVertexSimilarity()
+# # function are not public:
+#
+# test_that("temporary files are deleted automatically", {
+#    A    <- una::randDir(7, p = 0.23)
+#
+#    D2   <- reach::runMatlabFct("D2 = pairwiseVertexSimilarity(A, 1)")$D2
+#    expect_false(file.exists("tmp_1.mat"))
+#
+#    method <- 1
+#    D2   <- reach::runMatlabFct("D2 = pairwiseVertexSimilarity(A, method)")$D2
+#    expect_false(file.exists("tmp_1.mat"))
+#
+#
+#
+#    M <- reach::runMatlabFct("M = magic(7)")
+#    expect_false(file.exists("tmp_1.mat"))
+#
+#
+#
+#    A  <- matrix(sample(1,100,25), 5, 5)
+#    B  <- matrix(runif(100), 10, 10)
+#    expect_that(out <- runMatlabFct("out=matlab_test_fct_1(11, 22, A, 44, 55, 66, 777, B)"), not(throws_error()))
+#    expect_false(file.exists("tmp_1.mat"))
+#    expect_that(out <- runMatlabFct("out=matlab_test_fct_1(1, A)"), not(throws_error()))
+#    expect_false(file.exists("tmp_1.mat"))
 # })

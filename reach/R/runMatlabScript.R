@@ -46,16 +46,19 @@
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 03.09.15
+# 16.11.15
 
 
 runMatlabScript <- function(scriptName){
    #### Checking whether .m was appended to the scriptName ####
-   if(!is.na(stringr::str_locate(scriptName, ".m")[[1]])){ # TRUE: '.m' has to be removed
+   if(stringr::str_detect(scriptName, ".m")){ # TRUE: '.m' has to be removed
       scriptName <- stringr::str_sub(scriptName, start = 1L, end = -3L)
    }
 
 
+   if(!file.exists(paste(scriptName, ".m", sep = ""))){
+      stop("Input Matlab script does not exist in current working directory.")
+   }
 
 
    #### Selecting Matlab App ####
@@ -87,7 +90,7 @@ runMatlabScript <- function(scriptName){
    matlabRun <- paste(matlabCall, " -nosplash -nodesktop -r \"cd ", mypath,
                       "; ", scriptName, "; quit\"", sep="")
 
-   cat(matlabRun)
+   cat(paste(matlabRun, "\n\n"))
    system(matlabRun)
 
 }

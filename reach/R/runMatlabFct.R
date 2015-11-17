@@ -63,7 +63,8 @@
 #'
 #'
 #' # !the Matlab process has to be terminated manually!
-#' runMatlabFct("penny(") # wrong (it should be penny or penny()) but corrected internally
+#' # wrong Matlab function input ( it should be penny or penny() ), but corrected internally
+#' runMatlabFct("penny(")
 #'
 #'
 #'
@@ -100,7 +101,7 @@
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 04.10.15
+# 16.11.15
 
 runMatlabFct <- function(fcall){
    ### Avoid problems when input has no parentheses---
@@ -291,7 +292,7 @@ runMatlabFct <- function(fcall){
    }
 
 
-   if( inp_present && var_in_envir ){
+   if( inp_present && any_var_in_envir ){
       file.remove(c("tmp_1.mat", "tmp_2.mat"))
 
    } else {
