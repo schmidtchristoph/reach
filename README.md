@@ -2,7 +2,7 @@
 
 # reach:
 ## R < > Matlab interoperability
-##### version 0.3.0
+##### version 0.3.1
 
 For building an integrated R — Matlab software pipeline and workflow, being able to exchange data by reading and writing .mat files in R sessions is of great importance and for this the [R.matlab package](http://cran.r-project.org/web/packages/R.matlab/index.html) exists.
 
@@ -28,9 +28,7 @@ There are several ways of installing the package, e.g.:
 
 - install the "devtools" package first, then use devtools::install_github("schmidtchristoph/reach/reach")
 
-- download the source package, then run on the command line: R CMD INSTALL /path/to/reach_0.3.0.tar.gz
-
-- download the binary package (OS X), then run on the command line: R CMD INSTALL /path/to/reach_0.3.0.tgz
+- download the source package, then run on the command line: R CMD INSTALL /path/to/reach_0.3.1.tar.gz
 
 - install the "devtools" package first, clone the repository, then use devtools::install("path/to/repository/reach")
 

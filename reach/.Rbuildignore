@@ -3,5 +3,4 @@
 ^packrat$
 ^\.Rprofile$
 ^\.travis\.yml$
-^packrat/
-tests$
+^tests/$

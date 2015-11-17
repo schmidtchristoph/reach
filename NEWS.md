@@ -1,4 +1,10 @@
-# reach in 0.3.0
+## reach 0.3.1
+- fixed: temporary files were not removed by 'runMatlabFct()' under certain circumstances
+- 'runMatlabScript()' now complains if the input Matlab script does not exist in the current working directory, therefore one does not have to wait for Matlab to throw the error
+- the 'rList2Cell()' Matlab function is now also bundled with the R package in inst/matlab/
+
+
+## reach 0.3.0
 - reach can now seamlessly call Matlab functions and return their results directly using ```runMatlabFct()```
 - to give an example:
     

@@ -70,7 +70,8 @@ runMatlabFct("image")
 
 
 # !the Matlab process has to be terminated manually!
-runMatlabFct("penny(") # wrong (it should be penny or penny()) but corrected internally
+# wrong Matlab function input ( it should be penny or penny() ), but corrected internally
+runMatlabFct("penny(")
 
 
 
