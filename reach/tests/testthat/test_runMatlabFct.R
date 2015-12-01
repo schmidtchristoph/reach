@@ -132,15 +132,15 @@ test_that("result is not null for input with special symbols", {
 
 
 # # should be commented out because plot window/Matlab has to be terminated manually when no
-# # Matlab output was specified in the argument to runMatalbFct():
+# # Matlab output is specified in the argument to runMatalbFct():
 #
-# test_that("function works when no output was specified", {
-#    testthat::skip_on_travis()
-#
-#    x <- seq(1, 2.5*pi, 0.01)
-#    y <- (sin(x))^4
-#    expect_that(runMatlabFct("plot( x , y )"), not(throws_error()))
-# })
+test_that("function works when no output was specified", {
+   testthat::skip_on_travis()
+
+   x <- seq(1, 2.5*pi, 0.01)
+   y <- (sin(x))^4
+   expect_that(runMatlabFct("plot( x , y )"), not(throws_error()))
+})
 
 
 
@@ -150,29 +150,54 @@ test_that("result is not null for input with special symbols", {
 # # should be commented out because R package una and the pairwiseVertexSimilarity()
 # # function are not public:
 #
-# test_that("temporary files are deleted automatically", {
-#    testthat::skip_on_travis()
-#
-#    A    <- una::randDir(7, p = 0.23)
-#
-#    D2   <- reach::runMatlabFct("D2 = pairwiseVertexSimilarity(A, 1)")$D2
-#    expect_false(file.exists("tmp_1.mat"))
-#
-#    method <- 1
-#    D2   <- reach::runMatlabFct("D2 = pairwiseVertexSimilarity(A, method)")$D2
-#    expect_false(file.exists("tmp_1.mat"))
-#
-#
-#
-#    M <- reach::runMatlabFct("M = magic(7)")
-#    expect_false(file.exists("tmp_1.mat"))
-#
-#
-#
-#    A  <- matrix(sample(1,100,25), 5, 5)
-#    B  <- matrix(runif(100), 10, 10)
-#    expect_that(out <- runMatlabFct("out=matlab_test_fct_1(11, 22, A, 44, 55, 66, 777, B)"), not(throws_error()))
-#    expect_false(file.exists("tmp_1.mat"))
-#    expect_that(out <- runMatlabFct("out=matlab_test_fct_1(1, A)"), not(throws_error()))
-#    expect_false(file.exists("tmp_1.mat"))
-# })
+test_that("temporary files are deleted automatically", {
+   testthat::skip_on_travis()
+
+   A    <- una::randDir(7, p = 0.23)
+
+   D2   <- reach::runMatlabFct("D2 = pairwiseVertexSimilarity(A, 1)")$D2
+   expect_false(file.exists("tmp_1.mat"))
+
+   method <- 1
+   D2   <- reach::runMatlabFct("D2 = pairwiseVertexSimilarity(A, method)")$D2
+   expect_false(file.exists("tmp_1.mat"))
+
+
+
+   M <- reach::runMatlabFct("M = magic(7)")
+   expect_false(file.exists("tmp_1.mat"))
+
+
+
+   A  <- matrix(sample(1,100,25), 5, 5)
+   B  <- matrix(runif(100), 10, 10)
+   expect_that(out <- runMatlabFct("out=matlab_test_fct_1(11, 22, A, 44, 55, 66, 777, B)"), not(throws_error()))
+   expect_false(file.exists("tmp_1.mat"))
+   expect_that(out <- runMatlabFct("out=matlab_test_fct_1(1, A)"), not(throws_error()))
+   expect_false(file.exists("tmp_1.mat"))
+})
+
+
+
+
+
+
+test_that("handling input arguments that have writeMat() option names (not written to tmp_1.mat)", {
+   expect_error(out <- runMatlabFct("out=matlab_test_fct_1(11, 22, 33, 44, 55, 66, con, 8888)"),
+                regexp = "Input arguments have names incompatible with internal call to the 'writeMat()' function.", fixed=TRUE)
+
+   expect_error(out <- runMatlabFct("out=matlab_test_fct_1(11, verbose, 33, 44, 55, 66, 1, 8888)"),
+                regexp = "Input arguments have names incompatible with internal call to the 'writeMat()' function.", fixed=TRUE)
+
+   expect_error(out <- runMatlabFct("out=matlab_test_fct_1(verbose, 33, onWrite)"),
+                regexp = "Input arguments have names incompatible with internal call to the 'writeMat()' function.", fixed=TRUE)
+
+   expect_error(out <- runMatlabFct("out=matlab_test_fct_1(onWrite)"),
+                regexp = "Input arguments have names incompatible with internal call to the 'writeMat()' function.", fixed=TRUE)
+
+   expect_error(out <- runMatlabFct("out=matlab_test_fct_1(matVersion)"),
+                regexp = "Input arguments have names incompatible with internal call to the 'writeMat()' function.", fixed=TRUE)
+
+   expect_error(out <- runMatlabFct("out=matlab_test_fct_1(8, matVersion, 10, onWrite, con, 11, verbose)"),
+                regexp = "Input arguments have names incompatible with internal call to the 'writeMat()' function.", fixed=TRUE)
+})

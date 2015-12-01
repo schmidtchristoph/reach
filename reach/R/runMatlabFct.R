@@ -151,6 +151,14 @@ runMatlabFct <- function(fcall){
 
 
 
+   # input args with the same name as writeMat() options, like 'verbose', cannot be written to tmp_1.mat
+   if(any(c("verbose", "con", "matVersion", "onWrite") %in% inp)){
+      stop(paste("\nInput arguments have names incompatible with internal call to the 'writeMat()' function.\n",
+                 "'verbose, 'con', 'matVersion' and 'onWrite' are not allowed.", sep = ""))
+   }
+
+
+
 
 
    ### Parsing fct call - extract output arguments---
