@@ -183,6 +183,8 @@ test_that("temporary files are deleted automatically", {
 
 
 test_that("handling input arguments that have writeMat() option names (not written to tmp_1.mat)", {
+   testthat::skip_on_travis()
+
    expect_error(out <- runMatlabFct("out=matlab_test_fct_1(11, 22, 33, 44, 55, 66, con, 8888)"),
                 regexp = "Input arguments have names incompatible with internal call to the 'writeMat()' function.", fixed=TRUE)
 
