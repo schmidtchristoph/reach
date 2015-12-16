@@ -101,9 +101,6 @@ new_sub  <- 'assignment'
 new_str  <- runMatlabFct('str=strrep(orig_str, old_sub, new_sub)')
 print(new_str$str)
 
-
-
-
 }
 }
 \author{

@@ -94,9 +94,6 @@
 #' new_str  <- runMatlabFct('str=strrep(orig_str, old_sub, new_sub)')
 #' print(new_str$str)
 #'
-#'
-#'
-#'
 #' }
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
@@ -126,27 +123,9 @@ runMatlabFct <- function(fcall){
    ind2   <- stringr::str_locate_all(fcall, "\\)")[[1]] # should be the last position in the string (or second last if at the last position is an ';')
    ind2   <- ind2[dim(ind2)[1], 1]
    fcall_ <- stringr::str_sub(fcall, ind1+1, ind2-1)
-
-   inp       <- list()
-   ind_start <- 1
-   k         <- 1
-   bool      <- TRUE
+   inp    <- str_extractCommaSepArgs(fcall_)
 
 
-   while(bool){
-      fcall_     <- stringr::str_sub( fcall_, ind_start )
-      ind_end    <- stringr::str_locate( fcall_, "," )[1,1]
-
-      if(is.na(ind_end)){
-         bool    <- FALSE
-         ind_end <- stringr::str_length(fcall_) + 1
-      }
-
-      this_arg   <- stringr::str_sub( fcall_, 1, ind_end-1 )
-      inp[[k]]   <- stringr::str_trim(this_arg)
-      ind_start  <- ind_end + 1
-      k          <- k + 1
-   }
 
 
 
@@ -156,6 +135,7 @@ runMatlabFct <- function(fcall){
       stop(paste("\nInput arguments have names incompatible with internal call to the 'writeMat()' function.\n",
                  "'verbose, 'con', 'matVersion' and 'onWrite' are not allowed.", sep = ""))
    }
+
 
 
 
@@ -172,30 +152,8 @@ runMatlabFct <- function(fcall){
       ind2   <- stringr::str_locate(fcall, "=")[1,1]
    }
 
-
-
    fcall_ <- stringr::str_sub(fcall, ind1+1, ind2-1)
-
-   out       <- list()
-   ind_start <- 1
-   k         <- 1
-   bool      <- TRUE
-
-
-   while(bool){
-      fcall_     <- stringr::str_sub( fcall_, ind_start )
-      ind_end    <- stringr::str_locate( fcall_, "," )[1,1]
-
-      if(is.na(ind_end)){
-         bool    <- FALSE
-         ind_end <- stringr::str_length(fcall_) + 1
-      }
-
-      this_arg   <- stringr::str_sub( fcall_, 1, ind_end-1 )
-      out[[k]]   <- stringr::str_trim(this_arg)
-      ind_start  <- ind_end + 1
-      k          <- k + 1
-   }
+   out    <- str_extractCommaSepArgs(fcall_)
 
 
 
