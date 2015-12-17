@@ -1,6 +1,6 @@
 Package: reach
 Title: Improving interoperability between R and MATLAB
-Version: 0.4.0
+Version: 0.4.1
 Author: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
 Maintainer: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
 Description: An implementation of helper functions for improving R < > MATLAB interoperability.

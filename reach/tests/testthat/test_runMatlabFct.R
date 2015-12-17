@@ -134,13 +134,13 @@ test_that("result is not null for input with special symbols", {
 # # should be commented out because plot window/Matlab has to be terminated manually when no
 # # Matlab output is specified in the argument to runMatalbFct():
 #
-test_that("function works when no output was specified", {
-   testthat::skip_on_travis()
-
-   x <- seq(1, 2.5*pi, 0.01)
-   y <- (sin(x))^4
-   expect_that(runMatlabFct("plot( x , y )"), not(throws_error()))
-})
+# test_that("function works when no output was specified", {
+#    testthat::skip_on_travis()
+#
+#    x <- seq(1, 2.5*pi, 0.01)
+#    y <- (sin(x))^4
+#    expect_that(runMatlabFct("plot( x , y )"), not(throws_error()))
+# })
 
 
 

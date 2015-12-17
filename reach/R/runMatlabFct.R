@@ -130,7 +130,7 @@ runMatlabFct <- function(fcall){
 
 
 
-   # input args with the same name as writeMat() options, like 'verbose', cannot be written to tmp_1.mat
+   # input args with the same name as writeMat() options, like 'verbose', cannot be written to tmp_1 .mat file
    if(any(c("verbose", "con", "matVersion", "onWrite") %in% inp)){
       stop(paste("\nInput arguments have names incompatible with internal call to the 'writeMat()' function.\n",
                  "'verbose, 'con', 'matVersion' and 'onWrite' are not allowed.", sep = ""))
@@ -190,10 +190,13 @@ runMatlabFct <- function(fcall){
 
 
    ### Check if input arguments are available in the environment where the function was called from---
+   tmp_2  <- tempfile("rmf_", getwd(), ".mat")
+
    if( !identical(inp[[1]], "") ){ inp_present <- TRUE } else { inp_present <- FALSE }
 
-   if(inp_present){ # only if input is specified (and is a workspace variable name), the file tmp_1.mat is written, generate Matlab command
-      wM               <- "R.matlab::writeMat(\"tmp_1.mat\""
+   if(inp_present){ # only if input is specified (and is a workspace variable name), the 1st temporary file tmp_1 is written & the Matlab command generated
+      tmp_1            <- tempfile("rmf_", getwd(), ".mat")
+      wM               <- paste("matWrite(\"", tmp_1, "\", \"", sep = "") #writeMat() / matWrite() command
       any_var_in_envir <- FALSE
 
       for(k in 1:length(inp)){
@@ -211,21 +214,22 @@ runMatlabFct <- function(fcall){
          if( var_in_envir ){
             any_var_in_envir <- TRUE
             assign( inp[[k]], get(inp[[k]], envir = parent.frame()) )
-            wM               <- paste(wM, paste(", ", inp[[k]], "=", inp[[k]], sep = ""))
+            wM               <- paste(wM, paste(inp[[k]], ", ", sep = ""))
          }
       } # for 1:length(inp)
 
 
       if( any_var_in_envir ){
-         wM    <- paste(wM, ")", sep = "")
-         eval(parse(text=wM)) # writing tmp_1.mat
-         thisc <- paste("load tmp_1.mat; ", fcall, "; save('tmp_2.mat', '-v7')", sep = "") # Matlab command
+         wM    <- stringr::str_sub(wM, end = -3L)
+         wM    <- paste(wM, "\")", sep = "")
+         eval(parse(text=wM)) # writing tmp_1
+         thisc <- paste("load ", tmp_1, "; ", fcall, "; save('", tmp_2, "', '-v7')", sep = "") # Matlab command
       }
    } # inp_present
 
 
-   if( !inp_present || !any_var_in_envir) { # input is not specified or is a numeric value (not a variable name), so no tmp_1.mat was written, hence it cannot be loaded
-      thisc <- paste(fcall, "; save('tmp_2.mat', '-v7')", sep = "")
+   if( !inp_present || !any_var_in_envir) { # input is not specified or is a numeric value (not a variable name), so no tmp_1 .mat file was written, hence it cannot be loaded
+      thisc <- paste(fcall, "; save('", tmp_2, "', '-v7')", sep = "")
    }
 
 
@@ -250,7 +254,7 @@ runMatlabFct <- function(fcall){
 
    ### Read back the results of the computation, delete all temporary files, return results---
    if(out_present){
-      res        <- R.matlab::readMat("tmp_2.mat")
+      res        <- R.matlab::readMat(tmp_2)
       res        <- res[unlist(out)]
       names(res) <- out_orig
    } else {
@@ -259,10 +263,10 @@ runMatlabFct <- function(fcall){
 
 
    if( inp_present && any_var_in_envir ){
-      file.remove(c("tmp_1.mat", "tmp_2.mat"))
+      file.remove(c(tmp_1, tmp_2))
 
    } else {
-      file.remove("tmp_2.mat")
+      file.remove(tmp_2)
    }
 
 
