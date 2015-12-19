@@ -1,7 +1,15 @@
+## reach 0.4.2
+- new ```matWrite()``` function for conveniently writing .mat files and correctly writing .mat files containing logicals and atomic vectors
+- ```matWrite()``` replaces R.matlab::writeMat() in ```runMatlabFct()```
+- ```runMatlabFct()``` uses temporary .mat files with random names (instead of fixed names) for data transfer to Matlab, making running several instances of this function robust against overwriting these files
+- ```runMatlabFct()``` will now throw an error if Matlab function input arguments are named like 'writeMat()' options, which cannot be written to .mat files and thus cannot be exported to Matlab this way
+- ```convert2RData()``` was rewritten and the way it is used changed slightly. Sorry for the inconvenience.
+
+
 ## reach 0.3.1
-- fixed: temporary files were not removed by 'runMatlabFct()' under certain circumstances
-- 'runMatlabScript()' now complains if the input Matlab script does not exist in the current working directory, therefore one does not have to wait for Matlab to throw the error
-- the 'rList2Cell()' Matlab function is now also bundled with the R package in inst/matlab/
+- fixed: temporary files were not removed by ```runMatlabFct()``` under certain circumstances
+- ```runMatlabScript()``` now complains if the input Matlab script does not exist in the current working directory, therefore one does not have to wait for Matlab to throw the error
+- the ```rList2Cell()``` Matlab function is now also bundled with the R package in inst/matlab/
 
 
 ## reach 0.3.0

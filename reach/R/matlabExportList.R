@@ -14,12 +14,14 @@
 #'
 #' @param rlist List that is exported to Matlab as cell-array
 #'
-#' @details A list containing lists is not supported by the writeMat() function and provokes an error.
-#' Consequently, this is checked for in matlabExportList and triggers an error.
+#' @details A list containing lists is not supported by the writeMat() function
+#'   and provokes an error. Consequently, this is checked for in
+#'   matlabExportList and triggers an error.
 #'
-#' @return This function returns a reformated list that can be exported to Matlab with writeMat().
-#' In Matlab it should be transformed to a cell-array using the Matlab function 'rList2Cell()', which is
-#' distributed with this package.
+#' @return This function returns a reformated list that can be exported to
+#'   Matlab with writeMat(). In Matlab it should be transformed to a cell-array
+#'   using the Matlab function 'rList2Cell()', which is distributed with this
+#'   package.
 #'
 #' @seealso \code{\link{rList2Cell}}
 #'

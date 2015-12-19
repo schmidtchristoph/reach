@@ -11,6 +11,7 @@ test_that("convert2RData terminates", {
    R.matlab::writeMat("file_convert2RData.mat", v=v, m=m)
    expect_that(invisible(capture.output(convert2RData("file_convert2RData.mat"))), not(throws_error()))
    bool <- suppressWarnings(file.remove(c("file_convert2RData.mat", "file_convert2RData.RData")))
+   print(bool)
    expect_equal(bool, c(TRUE, TRUE))
 
 
@@ -23,6 +24,7 @@ test_that("convert2RData terminates", {
    expect_that(invisible(capture.output(convert2RData(dir=this_dir))), not(throws_error()))
    bool <- suppressWarnings(file.remove(c("dir_convert2RData_1.mat", "dir_convert2RData_2.mat",
                                           "dir_convert2RData_1.Rdata", "dir_convert2RData_2.Rdata")))
+   print(bool)
    expect_equal(bool, c(TRUE, TRUE, TRUE, TRUE))
 
 
@@ -33,6 +35,7 @@ test_that("convert2RData terminates", {
    R.matlab::writeMat("file_dir_convert2RData.mat", v=v)
    expect_that(invisible(capture.output(convert2RData("file_dir_convert2RData.mat", this_dir))), not(throws_error()))
    bool <- suppressWarnings(file.remove(c("file_dir_convert2RData.mat", "file_dir_convert2RData.RData")))
+   print(bool)
    expect_equal(bool, c(TRUE, TRUE))
 
 
@@ -46,5 +49,6 @@ test_that("convert2RData terminates", {
                not(throws_error()))
    bool <- suppressWarnings(file.remove(c("twofiles_convert2RData_1.mat", "twofiles_convert2RData_2.mat",
                                           "twofiles_convert2RData_1.RData", "twofiles_convert2RData_2.RData")))
+   print(bool)
    expect_equal(bool, c(TRUE, TRUE, TRUE, TRUE))
 })

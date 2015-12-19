@@ -3,7 +3,7 @@ Title: Improving interoperability between R and MATLAB
 Version: 0.4.2
 Author: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
 Maintainer: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
-Description: An implementation of helper functions for improving R < > MATLAB interoperability.
+Description: An implementation of utility functions for improving R < > MATLAB interoperability.
 SystemRequirements: Matlab
 Depends: R (>= 3.2.2)
 Imports:

@@ -10,9 +10,10 @@ matlabExportList(rlist)
 \item{rlist}{List that is exported to Matlab as cell-array}
 }
 \value{
-This function returns a reformated list that can be exported to Matlab with writeMat().
-In Matlab it should be transformed to a cell-array using the Matlab function 'rList2Cell()', which is
-distributed with this package.
+This function returns a reformated list that can be exported to
+  Matlab with writeMat(). In Matlab it should be transformed to a cell-array
+  using the Matlab function 'rList2Cell()', which is distributed with this
+  package.
 }
 \description{
 Exporting a R list with unnamed entries to Matlab using the
@@ -28,8 +29,9 @@ multidimensional matrix one can also use R arrays instead of lists
 just fine to Matlab and don't need any further processing.
 }
 \details{
-A list containing lists is not supported by the writeMat() function and provokes an error.
-Consequently, this is checked for in matlabExportList and triggers an error.
+A list containing lists is not supported by the writeMat() function
+  and provokes an error. Consequently, this is checked for in
+  matlabExportList and triggers an error.
 }
 \examples{
 \dontrun{
