@@ -1,44 +1,35 @@
-#' Converts an eligible Matlab .mat file to an .RData file
+#' Converts a Matlab data file (.mat) to R data file (.RData)
 #'
-#' Converts an eligible Matlab .mat file in the current directory to an .RData
-#' file. Keeps the .mat file unchanged. The Matlab file must have been saved
-#' with the -v7 option flag. Can also convert either all .mat files contained in
-#' a specified directory or a single specified .mat file in a specified
-#' directory.
+#' Converts all or specified Matlab .mat files in the specified directory to
+#' .RData files, while keeping the .mat files unchanged. The Matlab files must
+#' have been saved in a MAT file format version supported by R.matlab's
+#' \code{readMat} function (e.g. saved with the -v7 option flag, but not with
+#' the -v7.3 flag).
 #'
-#' @param matfile string or string vector denoting one or several matfiles, e.g.
-#'   "mymatlabdata", "mymatlabdata.mat", "path/to/mymatlabfile.mat" or
-#'   c("one.mat", "two.mat")
+#' @param matfile character or character vector denoting one or several
+#'   matfiles, e.g. "mymatlabdata", "mymatlabdata.mat", c("one.mat", "two.mat").
+#'   Providing the file type specifier ".mat" is optional. Defaults to NULL,
+#'   which means that all .mat files in the specified directory \code{dir} will
+#'   be converted.
 #'
 #' @param dir path to a directory which contains one or several .mat files that
-#'   should be converted to .RData files
+#'   should be converted to .RData files. Defaults to the current working
+#'   directory.
 #'
-#' @details If single .mat files in the current directory should be converted to
-#'   .RData, then the input argument dir has to be set to NULL. If the input
-#'   argument matfile is NULL and the input argument dir is specified, then all
-#'   .mat files in the given directory will be converted to .RData. If on the
-#'   other hand both input arguments, dir and matfile, are specified, then the
-#'   given .mat file(s) in the given directory will be converted to .RData.
-#'   Providing the file type specifier ".mat" is optional.
-#'
-#' @seealso \code{\link{runMatlabScript}}, \code{\link{runMatlabCommand}}
+#' @param verbose logical indicating whether console output about the conversion
+#'   process should be printed
 #'
 #' @export
 #'
 #' @examples
 #' \dontrun{
 #'
-#' ##### conversion of a single .mat file in the current working directory ####
+#' ##### conversion: specified .mat file in current working directory ####
 #' v <- sample(1:10,4)
 #' m <- matrix(runif(9),3,3)
-#' print(v)
-#' print(m)
 #' R.matlab::writeMat("file_convert2RData.mat", v=v, m=m)
 #' rm(v,m)
-#' print(ls())
-#'
-#' convert2RData("./file_convert2RData.mat")
-#'
+#' convert2RData("file_convert2RData.mat")
 #' load("file_convert2RData.RData")
 #' print(v)
 #' print(m)
@@ -46,18 +37,14 @@
 #'
 #'
 #'
-#' #### conversion of all .mat files in a specified directory ####
+#' #### conversion: all .mat files in a specified directory ####
 #' this_dir <- getwd()
 #' m   <- matrix(runif(9),3,3)
 #' v   <- seq(1,100)
-#' print(v)
-#' print(m)
 #' R.matlab::writeMat("dir_convert2RData_1.mat", m=m)
 #' R.matlab::writeMat("dir_convert2RData_2.mat", v=v)
 #' rm(v,m)
-#'
-#' convert2RData(dir=this_dir)
-#'
+#' convert2RData(dir = this_dir, verbose = TRUE)
 #' load(paste(this_dir, "/dir_convert2RData_1.Rdata", sep = ""))
 #' print(m)
 #' load(paste(this_dir, "/dir_convert2RData_2.Rdata", sep = ""))
@@ -69,32 +56,25 @@
 #'
 #'
 #'
-#' #### conversion of a single specified .mat file in a specified directory ####
+#' #### conversion: specified .mat file in a specified directory ####
 #' this_dir <- getwd()
 #' v   <- seq(1,10)
-#' print(v)
 #' R.matlab::writeMat("file_dir_convert2RData.mat", v=v)
 #' rm(v)
-#'
 #' convert2RData("file_dir_convert2RData.mat", this_dir)
-#'
 #' load("file_dir_convert2RData.RData")
 #' print(v)
 #' file.remove(c("file_dir_convert2RData.mat", "file_dir_convert2RData.RData"))
 #'
 #'
 #'
-#' #### conversion of several specified .mat files in the current working directory ####
+#' #### conversion: several specified .mat files in current working directory ####
 #' v <- sample(1:10,4)
 #' m <- matrix(runif(9),3,3)
-#' print(v)
-#' print(m)
 #' R.matlab::writeMat("twofiles_convert2RData_1.mat", v=v)
 #' R.matlab::writeMat("twofiles_convert2RData_2.mat", m=m)
 #' rm(v,m)
-#'
 #' convert2RData(c("twofiles_convert2RData_1.mat", "twofiles_convert2RData_2.mat"))
-#'
 #' load("twofiles_convert2RData_1.RData")
 #' print(v)
 #' load("twofiles_convert2RData_2.RData")
@@ -105,84 +85,89 @@
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 11.05.15
+# 19.12.15
 
 
-convert2RData <- function(matfile=NULL, dir=NULL){
-   #### file(s) in current directory ####
-   if(is.null(dir)){
+convert2RData <- function(matfile = NULL, dir = "./", verbose = FALSE){
 
-      if(is.null(matfile)){
-         stop("Input argument matfile not specified")
+   isDir <- file.info(dir)$isdir
+
+   if(is.na(isDir) || !isDir){
+      stop("Wrong input argument dir. Does not exist or is no directory.")
+   }
+
+
+
+   if(dir != "./"){
+      old_wd <- getwd()
+      setwd(dir)
+   }
+
+
+
+   if(is.null(matfile)){ # convert all .mat files in dir
+      dirCont <- list.files(pattern="*.mat$")
+
+      if(length(dirCont)==0){
+         if(dir != "./"){
+            setwd(old_wd)
+         }
+         stop("No .mat files found in specified directory.")
       }
 
 
+      for(f in 1:length(dirCont)){
+         if(verbose){
+            writeLines("")
+            writeLines(paste("Conversion file #", f, " - ", dirCont[f]))
+         }
+         convertFile(dirCont[f], verbose)
+      }
+   }
+   else { # convert specific .mat files in dir
       for(f in 1:length(matfile)){
          matfile_ <- check_matfile_format(matfile[f])
 
-
          if(is.na(file.info(matfile_)$size)){
-            stop("Wrong input argument matfile. Does not exist in current directory.")
-         }
-
-
-         convertFile(matfile_)
-      }
-
-
-
-
-
-      #### file(s) in a specified directory ####
-   } else {
-      isDir <- file.info(dir)$isdir
-
-      if(is.na(isDir) || !isDir){
-         stop("Wrong input argument dir. Does not exist or is no directory.")
-      }
-
-
-      old_wd <- getwd()
-      setwd(dir) # since given directory exists, we can change the working directory to it
-
-
-      #### convert entire directory ####
-      if(is.null(matfile)){
-         dirCont <- list.files(pattern="*.mat$")
-
-         if(length(dirCont)==0){
-            setwd(old_wd)
-            stop("No .mat files found in specified directory.")
-         }
-
-
-         for(f in 1:length(dirCont)){
-            writeLines("")
-            writeLines(paste("Conversion file #", f, " - ", dirCont[f]))
-            convertFile(dirCont[f])
-         }
-
-
-         setwd(old_wd)
-
-
-         #### convert specified matfile(s) ####
-      } else {
-         for(f in 1:length(matfile)){
-            matfile_ <- check_matfile_format(matfile[f])
-
-
-            if(is.na(file.info(matfile_)$size)){
+            if(dir != "./"){
                setwd(old_wd)
-               stop("Wrong input argument matfile. Does not exist in specified directory.")
             }
-
-
-            convertFile(matfile_)
+            stop(paste("Specified matfile #: ", f, "\n\t", matfile[f], "\ndoes not exist in specified directory.", sep = ""))
          }
 
-         setwd(old_wd)
+         convertFile(matfile_, verbose)
       }
+
+   }
+
+
+   if(dir != "./"){
+      setwd(old_wd)
+   }
+}
+
+
+
+
+
+# Converts a .mat file to a .RData file
+convertFile <- function(fname, verbose){ # fname ends with .mat
+   if(verbose){
+      writeLines(paste("Loading...", fname))
+   }
+
+   matCont <- R.matlab::readMat(fname)
+
+
+   for(k in 1:length(matCont)){
+      assign(names(matCont)[k], matCont[[names(matCont)[k]]])
+   }
+
+
+   save(list=names(matCont), file = paste(stringr::str_sub(fname, 1, nchar(fname)-4), ".RData", sep=""))
+
+   if(verbose){
+      writeLines("Finished saving corresponding .RData file.")
    }
 }
 
@@ -191,41 +176,10 @@ convert2RData <- function(matfile=NULL, dir=NULL){
 
 
 
-convertFile <- function(fname){ # fname ends with .mat
-   writeLines(paste("Loading...", fname))
-   imp <- R.matlab::readMat(fname)
-
-
-   for(k in 1:length(imp)){
-      assign(names(imp)[k], imp[[names(imp)[k]]])
-   }
-
-
-   save(list=names(imp), file = paste(stringr::str_sub(fname, 1, nchar(fname)-4), ".RData", sep=""))
-
-   writeLines("Finished saving corresponding .RData file.")
-}
-
-
-
-
-
-
+# Checks whether the .mat file name ends with '.mat' and if necessary appends this suffix to the file name
 check_matfile_format <- function(fname){
-   ind <- stringr::str_locate_all(fname,".mat")[[1]]
-
-
-   if(nrow(ind)==0){ # file type specifier was not provided (is not contained), thus has to be added
-      fname <- paste(fname, ".mat", sep="")
-
-
-   } else { # see if contained substring ".mat" is situated at the end of the filenname (where it should be)
-      isAtEnd <- (ind[nrow(ind), 2]==nchar(fname))
-
-      if(!isAtEnd){
-         warning("Input argument string fname contains substring .mat, but not at its end ... appending it.")
-         fname <- paste(fname, ".mat", sep="")
-      }
+   if(!stringr::str_detect(stringr::str_sub(fname, -4L, -1L), ".mat")){
+      fname <- paste(fname, ".mat", sep = "") # works even if fname ends with '.', or contains '.mat' somewhere different from its end
    }
 
    return(fname)
