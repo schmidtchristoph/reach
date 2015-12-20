@@ -75,7 +75,7 @@ There are several ways of installing the package, e.g.:
 
 The package passes devtools::check( ) with zero problems, notes or warnings on my machine running R 3.2.3 on OS X 10.10.5.
 
-The 'dev' branch can be considered stable, even though it contains incomplete features. Generally, only changes with devtools::check( ) Status: OK are pushed.
+The 'dev' branch can be considered stable, even though it contains incomplete new features. Generally, only changes with devtools::check( ) Status: OK are pushed.
 
 - - - 
 The [MIT License (MIT)](http://opensource.org/licenses/MIT)
