@@ -2,48 +2,40 @@
 % Please edit documentation in R/convert2RData.R
 \name{convert2RData}
 \alias{convert2RData}
-\title{Converts an eligible Matlab .mat file to an .RData file}
+\title{Converts a Matlab data file (.mat) to R data file (.RData)}
 \usage{
-convert2RData(matfile = NULL, dir = NULL)
+convert2RData(matfile = NULL, dir = "./", verbose = FALSE)
 }
 \arguments{
-\item{matfile}{string or string vector denoting one or several matfiles, e.g.
-  "mymatlabdata", "mymatlabdata.mat", "path/to/mymatlabfile.mat" or
-  c("one.mat", "two.mat")}
+\item{matfile}{character or character vector denoting one or several
+  matfiles, e.g. "mymatlabdata", "mymatlabdata.mat", c("one.mat", "two.mat").
+  Providing the file type specifier ".mat" is optional. Defaults to NULL,
+  which means that all .mat files in the specified directory \code{dir} will
+  be converted.}
 
 \item{dir}{path to a directory which contains one or several .mat files that
-  should be converted to .RData files}
+  should be converted to .RData files. Defaults to the current working
+  directory.}
+
+\item{verbose}{logical indicating whether console output about the conversion
+  process should be printed}
 }
 \description{
-Converts an eligible Matlab .mat file in the current directory to an .RData
-file. Keeps the .mat file unchanged. The Matlab file must have been saved
-with the -v7 option flag. Can also convert either all .mat files contained in
-a specified directory or a single specified .mat file in a specified
-directory.
-}
-\details{
-If single .mat files in the current directory should be converted to
-  .RData, then the input argument dir has to be set to NULL. If the input
-  argument matfile is NULL and the input argument dir is specified, then all
-  .mat files in the given directory will be converted to .RData. If on the
-  other hand both input arguments, dir and matfile, are specified, then the
-  given .mat file(s) in the given directory will be converted to .RData.
-  Providing the file type specifier ".mat" is optional.
+Converts all or specified Matlab .mat files in the specified directory to
+.RData files, while keeping the .mat files unchanged. The Matlab files must
+have been saved in a MAT file format version supported by R.matlab's
+\code{readMat} function (e.g. saved with the -v7 option flag, but not with
+the -v7.3 flag).
 }
 \examples{
 \dontrun{
 
-##### conversion of a single .mat file in the current working directory ####
+##### conversion: specified .mat file in current working directory ####
 v <- sample(1:10,4)
 m <- matrix(runif(9),3,3)
-print(v)
-print(m)
 R.matlab::writeMat("file_convert2RData.mat", v=v, m=m)
 rm(v,m)
-print(ls())
-
-convert2RData("./file_convert2RData.mat")
-
+convert2RData("file_convert2RData.mat")
 load("file_convert2RData.RData")
 print(v)
 print(m)
@@ -51,18 +43,14 @@ file.remove(c("file_convert2RData.RData", "file_convert2RData.mat"))
 
 
 
-#### conversion of all .mat files in a specified directory ####
+#### conversion: all .mat files in a specified directory ####
 this_dir <- getwd()
 m   <- matrix(runif(9),3,3)
 v   <- seq(1,100)
-print(v)
-print(m)
 R.matlab::writeMat("dir_convert2RData_1.mat", m=m)
 R.matlab::writeMat("dir_convert2RData_2.mat", v=v)
 rm(v,m)
-
-convert2RData(dir=this_dir)
-
+convert2RData(dir = this_dir, verbose = TRUE)
 load(paste(this_dir, "/dir_convert2RData_1.Rdata", sep = ""))
 print(m)
 load(paste(this_dir, "/dir_convert2RData_2.Rdata", sep = ""))
@@ -74,32 +62,25 @@ file.remove(c(paste(this_dir, "/dir_convert2RData_1.mat", sep = ""),
 
 
 
-#### conversion of a single specified .mat file in a specified directory ####
+#### conversion: specified .mat file in a specified directory ####
 this_dir <- getwd()
 v   <- seq(1,10)
-print(v)
 R.matlab::writeMat("file_dir_convert2RData.mat", v=v)
 rm(v)
-
 convert2RData("file_dir_convert2RData.mat", this_dir)
-
 load("file_dir_convert2RData.RData")
 print(v)
 file.remove(c("file_dir_convert2RData.mat", "file_dir_convert2RData.RData"))
 
 
 
-#### conversion of several specified .mat files in the current working directory ####
+#### conversion: several specified .mat files in current working directory ####
 v <- sample(1:10,4)
 m <- matrix(runif(9),3,3)
-print(v)
-print(m)
 R.matlab::writeMat("twofiles_convert2RData_1.mat", v=v)
 R.matlab::writeMat("twofiles_convert2RData_2.mat", m=m)
 rm(v,m)
-
 convert2RData(c("twofiles_convert2RData_1.mat", "twofiles_convert2RData_2.mat"))
-
 load("twofiles_convert2RData_1.RData")
 print(v)
 load("twofiles_convert2RData_2.RData")
@@ -110,8 +91,5 @@ file.remove(c("twofiles_convert2RData_1.mat", "twofiles_convert2RData_2.mat",
 }
 \author{
 Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
-}
-\seealso{
-\code{\link{runMatlabScript}}, \code{\link{runMatlabCommand}}
 }
 
