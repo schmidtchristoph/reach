@@ -79,4 +79,4 @@ The 'dev' branch can be considered stable, even though it contains incomplete ne
 
 - - - 
 The [MIT License (MIT)](http://opensource.org/licenses/MIT)
-Copyright (c) 2015 Christoph Schmidt
+Copyright (c) 2016 Christoph Schmidt
