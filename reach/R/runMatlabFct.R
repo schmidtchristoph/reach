@@ -98,7 +98,7 @@
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 16.11.15
+# 03.06.16
 
 runMatlabFct <- function(fcall){
    ### Avoid problems when input has no parentheses---
@@ -190,12 +190,15 @@ runMatlabFct <- function(fcall){
 
 
    ### Check if input arguments are available in the environment where the function was called from---
+   itswin <- isWin()
    tmp_2  <- tempfile("rmf_", getwd(), ".mat")
+   if(itswin){ tmp_2  <- stringr::str_replace_all(tmp_2, "\\\\", "/") } # adjusting path specificatin for Windows
 
    if( !identical(inp[[1]], "") ){ inp_present <- TRUE } else { inp_present <- FALSE }
 
    if(inp_present){ # only if input is specified (and is a workspace variable name), the 1st temporary file tmp_1 is written & the Matlab command generated
       tmp_1            <- tempfile("rmf_", getwd(), ".mat")
+      if(itswin){ tmp_1 <- stringr::str_replace_all(tmp_1, "\\\\", "/") }
       wM               <- paste("matWrite(\"", tmp_1, "\", \"", sep = "") #writeMat() / matWrite() command
       any_var_in_envir <- FALSE
 
@@ -247,6 +250,20 @@ runMatlabFct <- function(fcall){
       reach::runMatlabCommand(thisc, verbose = FALSE, do_quit = FALSE)
    }
 
+
+
+
+   if(itswin){
+      Sys.sleep(4) # for Windows only, wait until Matlab finished the computations - since Matlab process is separated from the running R session
+      while(TRUE){
+         if(file.exists(tmp_2)){
+            break
+
+         } else {
+            Sys.sleep(1.5)
+         }
+      }
+   }
 
 
 
