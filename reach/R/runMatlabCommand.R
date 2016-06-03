@@ -74,7 +74,7 @@
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 01.10.15
+# 03.06.16
 
 runMatlabCommand <- function(commandName, verbose = FALSE, do_quit = TRUE){
 
@@ -118,20 +118,10 @@ runMatlabCommand <- function(commandName, verbose = FALSE, do_quit = TRUE){
 
 
    #### Selecting Matlab call ####
-   si <- Sys.info()
-
-   if (si[['sysname']]=='Darwin') {
-      matl       <- getMacMatlab()
-      matlabCall <- paste('/Applications/', matl, '/bin/matlab', sep="")
+   matlabCall <- getMatlabCall()
 
 
-   } else {
-      matlabCall <- 'matlab'
-   }
-
-
-
-   flags      <- ' -nosplash -nodesktop -r '
+   flags      <- " -nosplash -nodesktop -r "
    systemcall <- paste(matlabCall, flags, commandName, sep="")
 
 

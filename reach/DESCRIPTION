@@ -1,18 +1,20 @@
 Package: reach
 Title: Improving interoperability between R and MATLAB
-Version: 0.4.2
+Version: 0.4.3
 Author: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
 Maintainer: Christoph Schmidt <christoph.schmidt@med.uni-jena.de>
-Description: An implementation of utility functions for improving R < > MATLAB interoperability.
+Description: An implementation of utility functions for improving R < > MATLAB
+    interoperability.
 SystemRequirements: Matlab
-Depends: R (>= 3.2.1)
+Depends:
+    R (>= 3.2.1)
 Imports:
-   stringr (>= 1.0.0),
-   R.matlab (>= 3.2.0)
+    stringr (>= 1.0.0),
+    R.matlab (>= 3.2.0)
 Suggests:
-   testthat (>= 0.10.0)
+    testthat (>= 0.10.0)
 LazyData: true
 License: MIT + file LICENSE
 URL: https://github.com/schmidtchristoph/reach
 BugReports: https://github.com/schmidtchristoph/reach/issues
-
+RoxygenNote: 5.0.1

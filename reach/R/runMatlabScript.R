@@ -46,7 +46,7 @@
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 16.11.15
+# 03.06.16
 
 
 runMatlabScript <- function(scriptName){
@@ -62,15 +62,7 @@ runMatlabScript <- function(scriptName){
 
 
    #### Selecting Matlab App ####
-   si <- Sys.info()
-
-   if (si[["sysname"]]=="Darwin") {
-      matl       <- getMacMatlab()
-      matlabCall <- paste('/Applications/', matl, '/bin/matlab', sep="")
-
-   } else {
-      matlabCall <- 'matlab'
-   }
+   matlabCall <- getMatlabCall()
 
 
 
