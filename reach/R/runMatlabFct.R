@@ -98,7 +98,7 @@
 #'
 #' @author Christoph Schmidt <christoph.schmidt@@med.uni-jena.de>
 
-# 03.06.16
+# 05.06.16
 
 runMatlabFct <- function(fcall){
    ### Avoid problems when input has no parentheses---
@@ -191,8 +191,15 @@ runMatlabFct <- function(fcall){
 
    ### Check if input arguments are available in the environment where the function was called from---
    itswin <- isWin()
-   tmp_2  <- tempfile("rmf_", getwd(), ".mat")
+
+   tmp_2  <- tempfile("rmf_", getwd(), ".mat") # Matlab returned data (computation)
    if(itswin){ tmp_2  <- stringr::str_replace_all(tmp_2, "\\\\", "/") } # adjusting path specificatin for Windows
+
+   if(itswin){
+      tmp_3  <- tempfile("rmf_", getwd(), ".mat") # Matlab returned data (indicating computation data was completely written to disk)
+      tmp_3  <- stringr::str_replace_all(tmp_3, "\\\\", "/") # adjusting path specificatin for Windows
+   }
+
 
    if( !identical(inp[[1]], "") ){ inp_present <- TRUE } else { inp_present <- FALSE }
 
@@ -226,13 +233,22 @@ runMatlabFct <- function(fcall){
          wM    <- stringr::str_sub(wM, end = -3L)
          wM    <- paste(wM, "\")", sep = "")
          eval(parse(text=wM)) # writing tmp_1
-         thisc <- paste("load ", tmp_1, "; ", fcall, "; save('", tmp_2, "', '-v7')", sep = "") # Matlab command
+
+         if(itswin){
+            thisc <- paste("load ", tmp_1, "; ", fcall, "; save('", tmp_2, "', '-v7'); wasSaved = true; save('", tmp_3, "', 'wasSaved', '-v7')", sep = "") # Matlab command
+         } else { # OS X, Linux
+            thisc <- paste("load ", tmp_1, "; ", fcall, "; save('", tmp_2, "', '-v7')", sep = "") # Matlab command
+         }
       }
    } # inp_present
 
 
    if( !inp_present || !any_var_in_envir) { # input is not specified or is a numeric value (not a variable name), so no tmp_1 .mat file was written, hence it cannot be loaded
-      thisc <- paste(fcall, "; save('", tmp_2, "', '-v7')", sep = "")
+      if(itswin){
+         thisc <- paste(fcall, "; save('", tmp_2, "', '-v7'); wasSaved = true; save('", tmp_3, "', 'wasSaved', '-v7')", sep = "") # Matlab command
+      } else { # OS X, Linux
+         thisc <- paste(fcall, "; save('", tmp_2, "', '-v7')", sep = "") # Matlab command
+      }
    }
 
 
@@ -256,7 +272,7 @@ runMatlabFct <- function(fcall){
    if(itswin){
       Sys.sleep(4) # for Windows only, wait until Matlab finished the computations - since Matlab process is separated from the running R session
       while(TRUE){
-         if(file.exists(tmp_2)){
+         if(file.exists(tmp_3)){ # returns TRUE, even if a large .mat file is still written and cannot be loaded (loading yields error 'Unknown data type)
             break
 
          } else {
@@ -280,10 +296,20 @@ runMatlabFct <- function(fcall){
 
 
    if( inp_present && any_var_in_envir ){
-      file.remove(c(tmp_1, tmp_2))
+      if(itswin){
+         file.remove(c(tmp_1, tmp_2, tmp_3))
+
+      } else {
+         file.remove(c(tmp_1, tmp_2))
+      }
 
    } else {
-      file.remove(tmp_2)
+      if(itswin){
+         file.remove(tmp_2, tmp_3)
+
+      } else {
+         file.remove(tmp_2)
+      }
    }
 
 

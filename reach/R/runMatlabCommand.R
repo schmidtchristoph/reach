@@ -4,10 +4,10 @@
 #' Starts Matlab on the R console and let it executes the input Matlab command
 #' or several input commands, like function calls (separated by ";") and quits
 #' Matlab. No values are directly returned back to the R session. To achieve
-#' this, use the function 'runMatlabFct()'. Discerns the OS X and Linux Matlab
-#' app shell command. Automatically changes to the current R working directory
-#' in Matlab so that .mat files with Matlab results would be saved there instead
-#' of the default Matlab working directory.
+#' this, use the function \code{runMatlabFct()}. Discerns the OS X and Linux
+#' Matlab app shell command. Automatically changes to the current R working
+#' directory in Matlab so that .mat files with Matlab results would be saved
+#' there instead of the default Matlab working directory.
 #'
 #' @param commandName a string denoting the Matlab command/ commands
 #'
