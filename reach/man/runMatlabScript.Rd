@@ -11,8 +11,8 @@ runMatlabScript(scriptName)
 extension)}
 }
 \description{
-Starts Matlab on the R console, executes the input Matlab script file (.m
-file) and quits Matlab. Discerns the OS X and Linux Matlab command.
+Starts Matlab on the R console (or for MS Windows: in an extra Matlab console
+window), executes the input Matlab script file (.m file) and quits Matlab.
 }
 \details{
 As R and Matlab cannot directly exchange data natively, no value

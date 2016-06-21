@@ -1,3 +1,17 @@
+## reach 0.4.5
+##### Added Microsoft Windows support
+- added Windows support for ```runMatlabFct()```, ```runMatlabCommand()``` and ```runMatlabScript()```
+- Windows support was successfully tested on Microsoft Windows 7 Professional running Matlab R2014a 
+- Windows support was successfully tested on Microsoft Windows 10 Home running Matlab R2016a
+
+
+##### Features currently in development
+- future releases of 'reach' will be able to read and write Matlab -v7.3 mat-files (HDF5); actually 'reach' will be able to transparently read -v7 / -v7.3 Matlab files
+- future releases of 'reach' will wrap generated Matlab code in try-catch blocks so that the Matlab process will automatically terminate in case of encountered errors
+
+
+
+
 ## reach 0.4.2
 - new ```matWrite()``` function for conveniently writing .mat files and correctly writing .mat files containing logicals and atomic vectors
 - ```matWrite()``` replaces R.matlab::writeMat() in ```runMatlabFct()```

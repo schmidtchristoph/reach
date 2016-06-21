@@ -2,16 +2,16 @@
 
 # reach:
 ## R < > Matlab interoperability
-##### version 0.4.2
+##### version 0.4.5
 
 The reach package contains functions that make it easy to reuse existing Matlab code within R code and to build a robust integrated R — Matlab software pipeline and workflow, enhancing the compatibility between R and Matlab. It enables to run Matlab functions and scripts from within R using .mat files as a means to robustly exchange data between R and a separate Matlab process. The 'reach' functions just work, with no complicated setup required. However, the robust data transfer via the file system comes at the price of an overhead to start and terminate the Matlab process for every function call or Matlab script execution. Primarily, the reach package is meant to be used to batch process a lot of data in each executed Matlab script or to run Matlab functions that have high time complexity. For such computations a few Matlab restarts as well as reading/ writing data to and from the disk (SSD) are neglectable. With 'reach' one can start a chain of R/ Matlab scripts, which can execute and control computations that might take weeks in a row without any further manual intervention from the side of the user.
 
 There are currently functions for
 
-- executing Matlab functions seamlessly as if they were R functions and returning their results directly into the R session (OS X, Linux)
+- executing Matlab functions seamlessly as if they were R functions and returning their results directly into the R session (OS X, Linux, Windows)
 - converting .mat files into .RData files as well as batch converting all .mat files contained within a folder (OS X, Linux, Windows)
-- starting Matlab scripts, which can save the results for importing them back into R (OS X, Linux)
-- starting Matlab functions and printing their results on the terminal (OS X, Linux)
+- starting Matlab scripts, which can save the results for importing them back into R (OS X, Linux, Windows)
+- starting Matlab functions and printing their results on the terminal (OS X, Linux, Windows)
 - exporting R lists with unnamed entries to Matlab and recovering multi-dimensional matrices in Matlab contained in exported R lists (OS X, Linux, Windows)
 
 To give an example of seamlessly executing a Matlab function and returning the results directly back into the R session using ```runMatlabFct()```:
@@ -67,13 +67,13 @@ There are several ways of installing the package, e.g.:
 
 - install the "devtools" package first, then use devtools::install_github("schmidtchristoph/reach/reach")
 
-- download the source package, then run on the command line: R CMD INSTALL /path/to/reach_0.4.2.tar.gz
+- download the source package, then run on the command line: R CMD INSTALL /path/to/reach_0.4.5.tar.gz
 
 - install the "devtools" package first, clone the repository, then use devtools::install("path/to/repository/reach")
 
 - - - 
 
-The package passes devtools::check( ) with zero problems, notes or warnings on my machine running R 3.2.3 on OS X 10.10.5.
+The package passes devtools::check( ) with zero problems, notes or warnings on my machine running R 3.2.4 on OS X 10.10.5.
 
 The 'dev' branch can be considered stable, even though it contains incomplete new features. Generally, only changes with devtools::check( ) Status: OK are pushed.
 
